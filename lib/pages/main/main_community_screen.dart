@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/models/post.dart';
+import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
 
 class MainCommunityScreen extends StatefulWidget {
   const MainCommunityScreen({Key? key}) : super(key: key);
@@ -9,22 +11,28 @@ class MainCommunityScreen extends StatefulWidget {
 
 class _MainCommunityScreenState extends State<MainCommunityScreen> {
   int selectedCategoryIndex = 0;
-  final List<String> categories = ['부동산', '주식', '코인', '재테크'];
+  final List<String> categories = ['전체', '부동산', '주식', '코인', '재테크', '기타'];
+  late Stream<List<Post>> postStream;
+
+  @override
+  void initState() {
+    super.initState();
+    postStream = FirestoreService().getPosts(); // 초기에는 모든 게시글을 가져옴
+  }
+
+  void _updatePostStream() {
+    final selectedCategory =
+        selectedCategoryIndex == 0 ? null : categories[selectedCategoryIndex];
+    setState(() {
+      postStream = FirestoreService().getPosts(category: selectedCategory);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(
       //   title: const Text('Main Community'),
-      //   actions: [
-      //     IconButton(
-      //       icon: const Icon(Icons.add),
-      //       onPressed: () {
-      //         // 게시글 작성 화면으로 이동
-      //         Navigator.pushNamed(context, '/addPost');
-      //       },
-      //     ),
-      //   ],
       // ),
       body: Column(
         children: [
@@ -63,14 +71,33 @@ class _MainCommunityScreenState extends State<MainCommunityScreen> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ChoiceChip(
-                    label: Text(categories[index]),
+                    label: SizedBox(
+                      width: 70, // 고정된 너비를 설정
+                      child: Center(
+                        child: Text(
+                          categories[index],
+                          style: const TextStyle(
+                            color: Colors.black, // 텍스트 색상
+                            fontSize: 14, // 글씨 크기
+                          ),
+                        ),
+                      ),
+                    ),
                     selected: selectedCategoryIndex == index,
                     selectedColor: Colors.blue,
+                    backgroundColor: Colors.grey[200], // 비선택 시 배경색
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0), // 모서리 둥글게
+                    ),
                     onSelected: (bool selected) {
-                      setState(() {
-                        selectedCategoryIndex = index;
-                      });
+                      if (selected) {
+                        setState(() {
+                          selectedCategoryIndex = index;
+                          _updatePostStream(); // 선택된 카테고리에 따라 게시글 업데이트
+                        });
+                      }
                     },
+                    showCheckmark: false, // 체크 모양 제거
                   ),
                 );
               }),
@@ -79,33 +106,32 @@ class _MainCommunityScreenState extends State<MainCommunityScreen> {
           const SizedBox(height: 8),
           // 게시글 리스트
           Expanded(
-            child: ListView(
-              children: [
-                _buildPostItem(
-                  title: '힐리오시티 구매 타이밍 일까…?',
-                  author: '경기도 고양시 남자 | adlsjsjdk',
-                  time: '2025.01.13',
-                  comments: 10,
-                  views: 32,
-                  likes: 100,
-                ),
-                _buildPostItem(
-                  title: '부동산 저점은 언제일까요',
-                  author: '서울 강남구 여자 | VUOP',
-                  time: '2시간 전',
-                  comments: 10,
-                  views: 32,
-                  likes: 100,
-                ),
-                _buildPostItem(
-                  title: '이젠 그만 포기해야 할 것 같아요',
-                  author: '경남 아산시 남자 | qwe123',
-                  time: '56분 전',
-                  comments: 10,
-                  views: 32,
-                  likes: 100,
-                ),
-              ],
+            child: StreamBuilder<List<Post>>(
+              stream: postStream,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text('오류 발생: ${snapshot.error}'));
+                }
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('게시물이 없습니다.'));
+                }
+
+                return ListView(
+                  children: snapshot.data!
+                      .map((post) => _buildPostItem(
+                            title: post.title,
+                            author: post.author,
+                            time: post.registerTime.toString(),
+                            comments: post.commentsCnt,
+                            views: post.viewsCnt,
+                            likes: post.likesCnt,
+                          ))
+                      .toList(),
+                );
+              },
             ),
           ),
         ],

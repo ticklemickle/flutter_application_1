@@ -138,10 +138,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
   Future<void> _addPostToFirestore() async {
     try {
       await firestoreService.addPost(
+        author: '서울 강남구 여자 | user123', // 예시 데이터, 실제로는 사용자 인증 정보 활용
         category: selectedCategory!,
         title: titleController.text,
         content: contentController.text,
-        createdAt: DateTime.now(),
+        registerTime: DateTime.now(),
       );
 
       if (mounted) {
