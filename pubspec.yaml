@@ -23,6 +23,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+flutter_launcher_name:
+  name: "티끌미끌"
+
 flutter_icons:
   android: true
   ios: true
