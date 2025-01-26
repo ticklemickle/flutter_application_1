@@ -14,18 +14,18 @@ class _MainCommunityScreenState extends State<MainCommunityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Main Community'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // 게시글 작성 화면으로 이동
-              Navigator.pushNamed(context, '/addPost');
-            },
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Main Community'),
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.add),
+      //       onPressed: () {
+      //         // 게시글 작성 화면으로 이동
+      //         Navigator.pushNamed(context, '/addPost');
+      //       },
+      //     ),
+      //   ],
+      // ),
       body: Column(
         children: [
           // 검색바
@@ -120,11 +120,11 @@ class _MainCommunityScreenState extends State<MainCommunityScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.fitness_center),
-            label: '경제 분석',
+            label: '경제 근육',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: '내 정보',
+            icon: Icon(Icons.menu),
+            label: '설정',
           ),
         ],
         onTap: (index) {

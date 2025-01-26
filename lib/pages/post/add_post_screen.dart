@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({Key? key}) : super(key: key);
@@ -11,6 +12,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
   String? selectedCategory;
   final titleController = TextEditingController();
   final contentController = TextEditingController();
+
+  final FirestoreService firestoreService =
+      FirestoreService(); // FirestoreService 인스턴스
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +95,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
             child: const Text('아니오'),
           ),
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context); // Dialog 닫기
+              Navigator.pushReplacementNamed(
+                  context, '/mainCommunity'); // 메인 커뮤니티로 이동
+            },
             child: const Text('예'),
           ),
         ],
@@ -111,9 +119,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
               child: const Text('아니오'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pop(context);
-                Navigator.pop(context); // 등록 후 화면 종료
+                await _addPostToFirestore(); // Firestore 저장
               },
               child: const Text('예'),
             ),
@@ -123,6 +131,28 @@ class _AddPostScreenState extends State<AddPostScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('카테고리와 제목을 입력하세요.')),
+      );
+    }
+  }
+
+  Future<void> _addPostToFirestore() async {
+    try {
+      await firestoreService.addPost(
+        category: selectedCategory!,
+        title: titleController.text,
+        content: contentController.text,
+        createdAt: DateTime.now(),
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('게시글이 성공적으로 등록되었습니다.')),
+        );
+        Navigator.pushReplacementNamed(context, '/mainCommunity');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('등록 중 오류가 발생했습니다: $e')),
       );
     }
   }
