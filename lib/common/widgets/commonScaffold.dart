@@ -47,15 +47,34 @@ class CommonScaffold extends StatelessWidget {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: MyColors.grey), // 기본 테두리 색상
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: MyColors.mainlightColor,
+                                  width: 2.0), // 입력 중 테두리 색상
+                            ),
                           ),
                         ),
                       ),
                       const SizedBox(width: 8),
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/addPost');
-                        },
+                      Container(
+                        decoration: BoxDecoration(
+                          color: MyColors.mainColor,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        child: IconButton(
+                          icon: const Icon(Icons.add),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/addPost');
+                          },
+                          color: Colors.black, // 아이콘 색상
+                        ),
                       ),
                     ],
                   ),

@@ -122,6 +122,9 @@ class ViewPostScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: MyColors.mainColor,
         borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: Colors.transparent,
+        ),
       ),
       child: Text(
         category,

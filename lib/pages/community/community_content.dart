@@ -124,20 +124,22 @@ class _CommunityContentState extends State<CommunityContent> {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: ChoiceChip(
-                  label: SizedBox(
-                    width: 70,
-                    child: Center(
-                      child: Text(
-                        categories[index],
-                        style: TextStyle(
-                          color: selectedCategoryIndex == index
-                              ? MyColors.mainFontColor // 선택된 상태의 글씨 색상
-                              : MyColors.subFontColor, // 선택되지 않은 상태의 글씨 색상
-                          fontSize: 14,
-                          fontWeight: selectedCategoryIndex == index
-                              ? FontWeight.bold // 선택된 상태는 Bold
-                              : FontWeight.normal, // 기본 상태는 Normal
-                        ),
+                  label: Container(
+                    constraints: const BoxConstraints(
+                      minHeight: 20, // 최소 높이
+                      minWidth: 60, // 최소 너비
+                    ),
+                    alignment: Alignment.center, // 텍스트를 중앙 정렬
+                    child: Text(
+                      categories[index],
+                      style: TextStyle(
+                        color: selectedCategoryIndex == index
+                            ? MyColors.mainFontColor // 선택된 상태 글씨 색상
+                            : MyColors.subFontColor, // 선택되지 않은 상태 글씨 색상
+                        fontSize: 14,
+                        fontWeight: selectedCategoryIndex == index
+                            ? FontWeight.bold // 선택된 상태는 Bold
+                            : FontWeight.normal, // 기본 상태는 Normal
                       ),
                     ),
                   ),
@@ -146,14 +148,14 @@ class _CommunityContentState extends State<CommunityContent> {
                   backgroundColor: MyColors.lightGrey,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
+                    side: BorderSide.none, // 테두리 제거
                   ),
-                  side: BorderSide.none,
                   onSelected: (bool selected) {
                     if (selected) {
                       _updateCategory(index);
                     }
                   },
-                  showCheckmark: false, // 체크 표시 숨김
+                  showCheckmark: false,
                 ),
               );
             }),
