@@ -64,4 +64,12 @@ class FirestoreService {
       return null;
     }
   }
+
+  Future<void> updateLikes(
+      String collection, String docId, int newLikes) async {
+    await FirebaseFirestore.instance
+        .collection(collection)
+        .doc(docId)
+        .update({'likes_cnt': newLikes});
+  }
 }

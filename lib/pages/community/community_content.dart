@@ -148,8 +148,8 @@ class _CommunityContentState extends State<CommunityContent> {
                   backgroundColor: MyColors.lightGrey,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
-                    side: BorderSide.none, // 테두리 제거
                   ),
+                  side: BorderSide.none, // 테두리 제거
                   onSelected: (bool selected) {
                     if (selected) {
                       _updateCategory(index);
