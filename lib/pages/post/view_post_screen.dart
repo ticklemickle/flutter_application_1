@@ -5,6 +5,19 @@ class ViewPostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Navigator를 통해 전달된 데이터를 받습니다.
+    final Map<String, dynamic> arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+
+    // 전달된 데이터를 변수에 저장
+    final String category = arguments['category'];
+    final String title = arguments['title'];
+    final String author = arguments['author'];
+    final String time = arguments['time'];
+    final int comments = arguments['comments'];
+    final int views = arguments['views'];
+    final int likes = arguments['likes'];
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -16,7 +29,7 @@ class ViewPostScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: () {
-              // 공유 기능
+              // 공유 기능 (추후 구현)
             },
           ),
         ],
@@ -26,20 +39,24 @@ class ViewPostScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildCategoryTag('부동산'),
+            // 카테고리 태그 예시 (데이터에 따라 동적 구성 가능)
+            _buildCategoryTag(category),
             const SizedBox(height: 8),
-            const Text(
-              '힐리오시티 구매 타이밍 일까...?',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            // 게시글 제목
+            Text(
+              title,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 4),
-            const Text(
-              '경기도 고양시 남자 | 2025.01.18 16:05',
-              style: TextStyle(color: Colors.grey, fontSize: 14),
+            // 작성자, 시간 정보
+            Text(
+              '$author | $time',
+              style: const TextStyle(color: Colors.grey, fontSize: 14),
             ),
             const Divider(height: 24, thickness: 1),
+            // 게시글 본문 예시 (본문 데이터 추가 가능)
             const Text(
-              '말그대로 지금 헬리오 저점인 것 같은데 철들 생각은 어때? 누군 더 떨어질 것 같다고 하는데 지금이 최저점이라 고도 하는데 잘 모르겠네.\n\n잘하시는 분들의 고견 부탁드립니다.',
+              '게시글 본문은 현재 제공된 데이터에 없습니다.\n추후 데이터를 추가하여 본문 내용을 표시하세요.',
               style: TextStyle(fontSize: 16),
             ),
             const Divider(height: 24, thickness: 1),
@@ -47,15 +64,15 @@ class ViewPostScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  children: const [
-                    Icon(Icons.thumb_up_alt_outlined),
-                    SizedBox(width: 4),
-                    Text('12'),
-                    SizedBox(width: 16),
-                    Icon(Icons.thumb_down_alt_outlined),
+                  children: [
+                    const Icon(Icons.thumb_up_alt_outlined),
+                    const SizedBox(width: 4),
+                    Text('$likes'), // 좋아요 개수
+                    const SizedBox(width: 16),
+                    const Icon(Icons.thumb_down_alt_outlined),
                   ],
                 ),
-                const Text('댓글 0   조회 131회'),
+                Text('댓글 $comments   조회 $views회'), // 댓글과 조회수
               ],
             ),
             const Divider(height: 24, thickness: 1),

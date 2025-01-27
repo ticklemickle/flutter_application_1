@@ -115,17 +115,34 @@ class _CommunityContentState extends State<CommunityContent> {
                 return const Center(child: Text('게시물이 없습니다.'));
               }
 
-              return ListView(
-                children: snapshot.data!
-                    .map((post) => _buildPostItem(
-                          title: post.title,
-                          author: post.author,
-                          time: post.registerTime.toString(),
-                          comments: post.commentsCnt,
-                          views: post.viewsCnt,
-                          likes: post.likesCnt,
-                        ))
-                    .toList(),
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final post = snapshot.data![index];
+
+                  return InkWell(
+                    onTap: () {
+                      // view_post_screen.dart로 이동
+                      Navigator.pushNamed(context, '/viewPost', arguments: {
+                        'category': post.category,
+                        'title': post.title,
+                        'author': post.author,
+                        'time': post.registerTime.toString(),
+                        'comments': post.commentsCnt,
+                        'views': post.viewsCnt,
+                        'likes': post.likesCnt,
+                      });
+                    },
+                    child: _buildPostItem(
+                      title: post.title,
+                      author: post.author,
+                      time: post.registerTime.toString(),
+                      comments: post.commentsCnt,
+                      views: post.viewsCnt,
+                      likes: post.likesCnt,
+                    ),
+                  );
+                },
               );
             },
           ),
@@ -144,7 +161,7 @@ class _CommunityContentState extends State<CommunityContent> {
   }) {
     return GestureDetector(
       onTap: () {
-        // view_post_screen.dart로 이동
+        // Navigate to view_post_screen.dart
         Navigator.pushNamed(context, '/viewPost', arguments: {
           'title': title,
           'author': author,
@@ -154,41 +171,61 @@ class _CommunityContentState extends State<CommunityContent> {
           'likes': likes,
         });
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 4),
-            Text('$time | $author'),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '$time | $author',
+                  style: const TextStyle(color: Colors.grey, fontSize: 14),
+                ),
+                const SizedBox(height: 12),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Icon(Icons.comment, size: 14),
-                    const SizedBox(width: 4),
-                    Text('$comments'),
+                    Row(
+                      children: [
+                        const Icon(Icons.comment, size: 14, color: Colors.grey),
+                        const SizedBox(width: 4),
+                        Text('$comments'),
+                      ],
+                    ),
                     const SizedBox(width: 16),
-                    const Icon(Icons.visibility, size: 14),
-                    const SizedBox(width: 4),
-                    Text('$views'),
+                    Row(
+                      children: [
+                        const Icon(Icons.visibility,
+                            size: 14, color: Colors.grey),
+                        const SizedBox(width: 4),
+                        Text('$views'),
+                      ],
+                    ),
                     const SizedBox(width: 16),
-                    const Icon(Icons.thumb_up, size: 14),
-                    const SizedBox(width: 4),
-                    Text('$likes'),
+                    Row(
+                      children: [
+                        const Icon(Icons.thumb_up,
+                            size: 14, color: Colors.grey),
+                        const SizedBox(width: 4),
+                        Text('$likes'),
+                      ],
+                    ),
                   ],
                 ),
               ],
             ),
-            const Divider(),
-          ],
-        ),
+          ),
+          // Divider at the bottom of each item
+          const Divider(color: Colors.grey, thickness: 0.5, height: 1),
+        ],
       ),
     );
   }
