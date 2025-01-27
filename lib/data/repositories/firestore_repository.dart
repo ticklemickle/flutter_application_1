@@ -25,24 +25,43 @@ class FirestoreService {
   }
 
   Stream<List<Post>> getPosts({String? category}) {
-    return _firestore
-        .collection('posts')
-        .where('category', isEqualTo: category)
-        .snapshots()
-        .map((snapshot) {
+    final query = _firestore.collection('posts');
+
+    // 카테고리가 null이 아니면 where 조건 추가
+    final filteredQuery =
+        category != null ? query.where('category', isEqualTo: category) : query;
+
+    return filteredQuery.snapshots().map((snapshot) {
       return snapshot.docs
           .map((doc) {
             try {
               return Post.fromMap(doc.data());
             } catch (e) {
-              // 에러 발생 시 로그 출력 (문제가 되는 게시글의 ID 포함)
               print('Error parsing post with ID ${doc.id}: $e');
-              return null; // 문제 발생 시 null 반환
+              return null;
             }
           })
-          .where((post) => post != null)
-          .cast<Post>()
+          .where((post) => post != null) // null 제거
+          .cast<Post>() // Post 타입으로 변환
           .toList();
     });
+  }
+
+  Future<Map<String, dynamic>?> getPostById(
+      String collection, String documentId) async {
+    try {
+      final DocumentSnapshot document =
+          await _firestore.collection(collection).doc(documentId).get();
+
+      if (document.exists) {
+        return document.data() as Map<String, dynamic>;
+      } else {
+        return null; // 문서가 존재하지 않을 때
+      }
+    } catch (e) {
+      // 오류 처리
+      print('Firestore 조회 오류: $e');
+      return null;
+    }
   }
 }
