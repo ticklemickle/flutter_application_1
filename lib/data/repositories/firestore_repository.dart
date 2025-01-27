@@ -72,4 +72,20 @@ class FirestoreService {
         .doc(docId)
         .update({'likes_cnt': newLikes});
   }
+
+  /// 조회수 증가 메서드
+  Future<void> incrementViews(String collection, String postId) async {
+    final DocumentReference postRef =
+        _firestore.collection(collection).doc(postId);
+
+    await _firestore.runTransaction((transaction) async {
+      final snapshot = await transaction.get(postRef);
+
+      if (snapshot.exists) {
+        final data = snapshot.data() as Map<String, dynamic>;
+        final currentViews = data['views_cnt'] ?? 0;
+        transaction.update(postRef, {'views_cnt': currentViews + 1});
+      }
+    });
+  }
 }

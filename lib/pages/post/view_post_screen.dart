@@ -14,6 +14,7 @@ class ViewPostScreen extends StatefulWidget {
 class _ViewPostScreenState extends State<ViewPostScreen> {
   bool isLiked = false; // 좋아요 상태
   int likes = 0; // 좋아요 개수
+  int views = 0; // 조회수
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
           ],
         ),
         body: FutureBuilder<Map<String, dynamic>?>(
-          future: firestoreService.getPostById('posts', postId),
+          future: _incrementViewsAndFetchPost(firestoreService, postId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -54,8 +55,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
               final String author = data['author'] ?? '익명';
               final String time = formatTimestamp(data['register_time']);
               final int comments = data['comments_cnt'] ?? 0;
-              final int views = data['views_cnt'] ?? 0;
-
+              views = data['views_cnt'] ?? 0;
               likes = data['likes_cnt'] ?? 0; // 좋아요 초기화
 
               return Padding(
@@ -111,6 +111,13 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
         ),
       ),
     );
+  }
+
+  /// 조회수를 증가시키고 게시글 데이터를 가져오는 메서드
+  Future<Map<String, dynamic>?> _incrementViewsAndFetchPost(
+      FirestoreService firestoreService, String postId) async {
+    await firestoreService.incrementViews('posts', postId);
+    return await firestoreService.getPostById('posts', postId);
   }
 
   // 좋아요 UI와 동작 분리
