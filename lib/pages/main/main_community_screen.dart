@@ -73,6 +73,7 @@ class _MainCommunityScreenState extends State<MainCommunityScreen> {
           ),
         ],
       ),
+      isSearchBarVisible: _currentIndex == 0,
     );
   }
 }

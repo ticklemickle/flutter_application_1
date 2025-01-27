@@ -116,32 +116,6 @@ class _CommunityContentState extends State<CommunityContent> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // 검색바
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: '검색',
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/addPost');
-                },
-              ),
-            ],
-          ),
-        ),
         // 카테고리 선택
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -172,8 +146,8 @@ class _CommunityContentState extends State<CommunityContent> {
                   backgroundColor: MyColors.lightGrey,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
-                    side: BorderSide.none, // 테두리 제거
                   ),
+                  side: BorderSide.none,
                   onSelected: (bool selected) {
                     if (selected) {
                       _updateCategory(index);
