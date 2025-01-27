@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/main/main_community_screen.dart';
 import 'package:flutter_application_1/pages/main/main_muscle_screen.dart';
+import 'package:flutter_application_1/pages/main/main_setting_screen.dart';
 import 'package:flutter_application_1/pages/my_info/my_info_screen.dart';
 import 'package:flutter_application_1/pages/post/add_post_screen.dart';
 import 'package:flutter_application_1/pages/post/view_post_screen.dart';
-import 'package:flutter_application_1/pages/setting/main_setting_screen.dart';
 
 class AppRoutes {
   static const String mainCommunity = '/mainCommunity';

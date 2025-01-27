@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/community/community_content.dart';
+import 'package:flutter_application_1/pages/main/main_muscle_screen.dart';
+import 'package:flutter_application_1/pages/main/main_setting_screen.dart';
 
 class MainCommunityScreen extends StatefulWidget {
   const MainCommunityScreen({Key? key}) : super(key: key);
@@ -23,7 +25,9 @@ class _MainCommunityScreenState extends State<MainCommunityScreen> {
           });
         },
         children: [
-          const CommunityContent(), // 분리된 위젯 호출
+          const CommunityContent(),
+          const MainMuscleScreen(),
+          const MainSettingScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -44,23 +48,8 @@ class _MainCommunityScreenState extends State<MainCommunityScreen> {
         ],
         onTap: (index) {
           if (index == currentBottomNaviIndex) return;
-
-          if (index == 0) {
-            _pageController.jumpToPage(index);
-          } else {
-            switch (index) {
-              case 1:
-                Navigator.pushNamed(context, '/mainMuscle').then((_) {
-                  setState(() => currentBottomNaviIndex = 0);
-                });
-                break;
-              case 2:
-                Navigator.pushNamed(context, '/myInfo').then((_) {
-                  setState(() => currentBottomNaviIndex = 0);
-                });
-                break;
-            }
-          }
+          _pageController.jumpToPage(index);
+          setState(() => currentBottomNaviIndex = index);
         },
       ),
     );
