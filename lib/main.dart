@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/common/widgets/commonScaffold.dart';
 import 'routes/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -13,7 +12,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +21,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: AppRoutes.mainCommunity,
       routes: AppRoutes.getRoutes(),
-      builder: (context, child) {
-        // 상태 표시줄 여백 공통 적용
-        return CommonScaffold(
-          child: child ?? const SizedBox.shrink(),
-        );
-      },
     );
   }
 }

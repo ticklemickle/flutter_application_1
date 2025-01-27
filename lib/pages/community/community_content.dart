@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/common/themes/colors.dart';
 import 'package:flutter_application_1/common/utils/DateTimeUtil.dart';
 
 class CommunityContent extends StatefulWidget {
@@ -154,25 +155,31 @@ class _CommunityContentState extends State<CommunityContent> {
                     child: Center(
                       child: Text(
                         categories[index],
-                        style: const TextStyle(
-                          color: Colors.black,
+                        style: TextStyle(
+                          color: selectedCategoryIndex == index
+                              ? MyColors.mainFontColor // 선택된 상태의 글씨 색상
+                              : MyColors.subFontColor, // 선택되지 않은 상태의 글씨 색상
                           fontSize: 14,
+                          fontWeight: selectedCategoryIndex == index
+                              ? FontWeight.bold // 선택된 상태는 Bold
+                              : FontWeight.normal, // 기본 상태는 Normal
                         ),
                       ),
                     ),
                   ),
                   selected: selectedCategoryIndex == index,
-                  selectedColor: Colors.blue,
-                  backgroundColor: Colors.grey[200],
+                  selectedColor: MyColors.mainColor,
+                  backgroundColor: MyColors.lightGrey,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide.none, // 테두리 제거
                   ),
                   onSelected: (bool selected) {
                     if (selected) {
                       _updateCategory(index);
                     }
                   },
-                  showCheckmark: false,
+                  showCheckmark: false, // 체크 표시 숨김
                 ),
               );
             }),
@@ -236,7 +243,8 @@ class _CommunityContentState extends State<CommunityContent> {
               const SizedBox(height: 8),
               Text(
                 '$time | $author',
-                style: const TextStyle(color: Colors.grey, fontSize: 14),
+                style:
+                    const TextStyle(color: MyColors.subFontColor, fontSize: 14),
               ),
               const SizedBox(height: 12),
               Row(
@@ -244,7 +252,8 @@ class _CommunityContentState extends State<CommunityContent> {
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.comment, size: 14, color: Colors.grey),
+                      const Icon(Icons.comment,
+                          size: 14, color: MyColors.subFontColor),
                       const SizedBox(width: 4),
                       Text('$comments'),
                     ],
@@ -253,7 +262,7 @@ class _CommunityContentState extends State<CommunityContent> {
                   Row(
                     children: [
                       const Icon(Icons.visibility,
-                          size: 14, color: Colors.grey),
+                          size: 14, color: MyColors.subFontColor),
                       const SizedBox(width: 4),
                       Text('$views'),
                     ],
@@ -261,7 +270,8 @@ class _CommunityContentState extends State<CommunityContent> {
                   const SizedBox(width: 16),
                   Row(
                     children: [
-                      const Icon(Icons.thumb_up, size: 14, color: Colors.grey),
+                      const Icon(Icons.thumb_up,
+                          size: 14, color: MyColors.subFontColor),
                       const SizedBox(width: 4),
                       Text('$likes'),
                     ],
@@ -272,7 +282,7 @@ class _CommunityContentState extends State<CommunityContent> {
           ),
         ),
         // Divider at the bottom of each item
-        const Divider(color: Colors.grey, thickness: 0.5, height: 1),
+        const Divider(color: MyColors.lightGrey, thickness: 0.5, height: 1),
       ],
     );
   }

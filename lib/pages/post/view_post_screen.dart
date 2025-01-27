@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/common/themes/colors.dart';
 import 'package:flutter_application_1/common/utils/dateTimeUtil.dart';
 import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
 
@@ -68,7 +69,8 @@ class ViewPostScreen extends StatelessWidget {
                   // 작성자, 시간 정보
                   Text(
                     '$author | $time',
-                    style: const TextStyle(color: Colors.grey, fontSize: 14),
+                    style: const TextStyle(
+                        color: MyColors.subFontColor, fontSize: 14),
                   ),
                   const Divider(height: 24, thickness: 1),
                   Text(
@@ -118,12 +120,12 @@ class ViewPostScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       decoration: BoxDecoration(
-        color: Colors.lightBlueAccent,
+        color: MyColors.mainColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
         category,
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(color: MyColors.mainFontColor),
       ),
     );
   }
