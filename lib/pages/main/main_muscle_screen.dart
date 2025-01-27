@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MainMuscleScreen extends StatelessWidget {
-  const MainMuscleScreen({Key? key}) : super(key: key);
+  const MainMuscleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

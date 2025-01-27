@@ -4,7 +4,7 @@ import 'package:flutter_application_1/pages/main/main_muscle_screen.dart';
 import 'package:flutter_application_1/pages/main/main_setting_screen.dart';
 
 class MainCommunityScreen extends StatefulWidget {
-  const MainCommunityScreen({Key? key}) : super(key: key);
+  const MainCommunityScreen({super.key});
 
   @override
   _MainCommunityScreenState createState() => _MainCommunityScreenState();

@@ -3,7 +3,7 @@ import 'package:flutter_application_1/data/models/post.dart';
 import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
 
 class CommunityContent extends StatefulWidget {
-  const CommunityContent({Key? key}) : super(key: key);
+  const CommunityContent({super.key}); // super.key로 변경
 
   @override
   _CommunityContentState createState() => _CommunityContentState();
