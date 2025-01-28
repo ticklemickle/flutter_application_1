@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/themes/colors.dart';
-import 'package:flutter_application_1/common/utils/PostUrlProvider.dart';
 import 'package:flutter_application_1/common/utils/dateTimeUtil.dart';
 import 'package:flutter_application_1/common/widgets/errorBoundary.dart';
 import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
@@ -28,7 +27,6 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
   Widget build(BuildContext context) {
     final String postId = widget.postId;
 
-    PostUrlProvider.initialize(postId);
     print("Current ViewPost Id: " + postId);
     final FirestoreService firestoreService = FirestoreService();
 
@@ -51,7 +49,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
             IconButton(
               icon: const Icon(Icons.share),
               onPressed: () {
-                final String shareUrl = PostUrlProvider.getPostUrl();
+                final String shareUrl = '';
                 Share.share('Check out this post: $shareUrl');
               },
             ),
