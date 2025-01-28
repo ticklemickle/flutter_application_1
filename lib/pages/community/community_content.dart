@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/themes/colors.dart';
 import 'package:flutter_application_1/common/utils/DateTimeUtil.dart';
 
+import 'package:go_router/go_router.dart';
+
 class CommunityContent extends StatefulWidget {
   const CommunityContent({super.key});
 
@@ -178,8 +180,7 @@ class _CommunityContentState extends State<CommunityContent> {
               final post = _posts[index];
               return InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, '/viewPost',
-                      arguments: post['id']);
+                  context.push('/viewPost/${post['id']}'); // URL에 id 포함
                 },
                 child: _buildPostItem(
                   title: post['title'] ?? 'Untitled',

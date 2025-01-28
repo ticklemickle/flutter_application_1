@@ -3,9 +3,12 @@ import 'package:flutter_application_1/common/themes/colors.dart';
 import 'package:flutter_application_1/common/utils/dateTimeUtil.dart';
 import 'package:flutter_application_1/common/widgets/errorBoundary.dart';
 import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
+import 'package:go_router/go_router.dart';
 
 class ViewPostScreen extends StatefulWidget {
-  const ViewPostScreen({super.key});
+  final String postId;
+
+  const ViewPostScreen({super.key, required this.postId});
 
   @override
   _ViewPostScreenState createState() => _ViewPostScreenState();
@@ -21,7 +24,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String postId = ModalRoute.of(context)?.settings.arguments as String;
+    print("widget.postId: " + widget.postId);
     final FirestoreService firestoreService = FirestoreService();
 
     return ErrorBoundary(
@@ -29,7 +32,14 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              try {
+                GoRouter.of(context).pop();
+              } catch (e) {
+                print(e);
+                context.go('/mainCommunity');
+              }
+            },
           ),
           title: const Text('게시글'),
           actions: [
@@ -42,7 +52,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
           ],
         ),
         body: FutureBuilder<Map<String, dynamic>?>(
-          future: _incrementViewsAndFetchPost(firestoreService, postId),
+          future: _incrementViewsAndFetchPost(firestoreService, widget.postId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -91,7 +101,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _buildLikesSection(firestoreService, postId),
+                        _buildLikesSection(firestoreService, widget.postId),
                         Text('댓글 $comments   조회 $views회'),
                       ],
                     ),
