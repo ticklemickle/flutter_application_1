@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/themes/colors.dart';
+import 'package:flutter_application_1/common/utils/PostUrlProvider.dart';
 import 'package:flutter_application_1/common/utils/dateTimeUtil.dart';
 import 'package:flutter_application_1/common/widgets/errorBoundary.dart';
 import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ViewPostScreen extends StatefulWidget {
   final String postId;
@@ -24,7 +26,10 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("widget.postId: " + widget.postId);
+    final String postId = widget.postId;
+
+    PostUrlProvider.initialize(postId);
+    print("Current ViewPost Id: " + postId);
     final FirestoreService firestoreService = FirestoreService();
 
     return ErrorBoundary(
@@ -46,13 +51,14 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
             IconButton(
               icon: const Icon(Icons.share),
               onPressed: () {
-                // 공유 기능 (추후 구현)
+                final String shareUrl = PostUrlProvider.getPostUrl();
+                Share.share('Check out this post: $shareUrl');
               },
             ),
           ],
         ),
         body: FutureBuilder<Map<String, dynamic>?>(
-          future: _incrementViewsAndFetchPost(firestoreService, widget.postId),
+          future: _incrementViewsAndFetchPost(firestoreService, postId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -101,7 +107,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _buildLikesSection(firestoreService, widget.postId),
+                        _buildLikesSection(firestoreService, postId),
                         Text('댓글 $comments   조회 $views회'),
                       ],
                     ),

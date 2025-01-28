@@ -88,7 +88,4 @@ class CommonScaffold extends StatelessWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(70); // 검색바 높이
 }
