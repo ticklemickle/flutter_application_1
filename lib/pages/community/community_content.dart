@@ -12,6 +12,7 @@ class CommunityContent extends StatefulWidget {
 
 class _CommunityContentState extends State<CommunityContent> {
   int selectedCategoryIndex = 0;
+  final int MAX_PAGE = 5;
   final List<String> categories = ['전체', '부동산', '주식', '코인', '재테크', '기타'];
   final ScrollController _scrollController = ScrollController();
 
@@ -91,7 +92,7 @@ class _CommunityContentState extends State<CommunityContent> {
         }
         _lastDocument =
             querySnapshot.docs.isNotEmpty ? querySnapshot.docs.last : null;
-        _hasMore = fetchedPosts.length == 50; // 데이터가 50개 이상일 경우 추가 로드 가능
+        _hasMore = fetchedPosts.length == MAX_PAGE; // 데이터가 50개 이상일 경우 추가 로드 가능
       });
     } catch (e) {
       print('Error loading posts: $e');

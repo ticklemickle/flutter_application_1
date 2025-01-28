@@ -25,62 +25,13 @@ class CommonScaffold extends StatelessWidget {
       backgroundColor: MyColors.mainBackgroundColor, // 배경색
       appBar: AppBar(
         title: isSearchBarVisible
-            ? null // 검색바 표시 시 기본 타이틀 제거
+            ? buildSearchBar(context) // 검색바를 별도 메서드로 분리
             : Text(
                 title ?? '',
                 textAlign: titleAlignment,
                 style: const TextStyle(color: MyColors.mainFontColor),
               ),
         actions: actions,
-        bottom: isSearchBarVisible
-            ? PreferredSize(
-                preferredSize: const Size.fromHeight(70), // 검색바 높이
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: '검색',
-                            prefixIcon: const Icon(Icons.search),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: MyColors.grey), // 기본 테두리 색상
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: MyColors.mainlightColor,
-                                  width: 2.0), // 입력 중 테두리 색상
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: MyColors.mainColor,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.transparent,
-                          ),
-                        ),
-                        child: IconButton(
-                          icon: const Icon(Icons.add),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/addPost');
-                          },
-                          color: Colors.black, // 아이콘 색상
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            : null, // 검색바 비활성화 시 bottom 제거
         backgroundColor: MyColors.mainBackgroundColor, // AppBar 배경색
         iconTheme: const IconThemeData(color: MyColors.mainFontColor),
         bottomOpacity: 1.0, // 투명도
@@ -89,4 +40,55 @@ class CommonScaffold extends StatelessWidget {
       bottomNavigationBar: bottomNavigationBar,
     );
   }
+
+  Widget buildSearchBar(BuildContext context) {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(70), // 검색바 높이
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: '검색',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: MyColors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: MyColors.mainlightColor,
+                      width: 2.0,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              decoration: BoxDecoration(
+                color: MyColors.mainColor,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.transparent),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/addPost');
+                },
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(70); // 검색바 높이
 }
