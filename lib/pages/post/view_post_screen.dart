@@ -16,6 +16,9 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
   int likes = 0; // 좋아요 개수
   int views = 0; // 조회수
 
+  final ValueNotifier<bool> isLikedNotifier = ValueNotifier(false);
+  final ValueNotifier<int> likesNotifier = ValueNotifier(0);
+
   @override
   Widget build(BuildContext context) {
     final String postId = ModalRoute.of(context)?.settings.arguments as String;
@@ -57,6 +60,9 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
               final int comments = data['comments_cnt'] ?? 0;
               views = data['views_cnt'] ?? 0;
               likes = data['likes_cnt'] ?? 0; // 좋아요 초기화
+
+              likesNotifier.value = data['likes_cnt'] ?? 0;
+              isLikedNotifier.value = false; // 기본 값 초기화
 
               return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -124,24 +130,45 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
   Widget _buildLikesSection(FirestoreService firestoreService, String postId) {
     return Row(
       children: [
-        IconButton(
-          icon: Icon(
-            isLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
-          ),
-          onPressed: () async {
-            setState(() {
-              isLiked = !isLiked;
-              likes += isLiked ? 1 : -1;
-            });
+        ValueListenableBuilder<bool>(
+          valueListenable: isLikedNotifier,
+          builder: (context, isLiked, child) {
+            return IconButton(
+              icon: Icon(
+                isLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
+              ),
+              onPressed: () {
+                // 즉시 값 변경
+                final newValue = !isLiked;
+                final newLikes = newValue
+                    ? likesNotifier.value + 1
+                    : likesNotifier.value - 1;
 
-            await firestoreService.updateLikes('posts', postId, likes);
+                isLikedNotifier.value = newValue;
+                likesNotifier.value = newLikes;
+
+                firestoreService.updateLikesInBackground(
+                    postId, newValue, newLikes);
+              },
+            );
           },
         ),
         const SizedBox(width: 4),
-        Text('$likes'),
-        const SizedBox(width: 16),
+        ValueListenableBuilder<int>(
+          valueListenable: likesNotifier,
+          builder: (context, likes, child) {
+            return Text('$likes');
+          },
+        ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    isLikedNotifier.dispose();
+    likesNotifier.dispose();
+    super.dispose();
   }
 
   Widget _buildCategoryTag(String category) {

@@ -65,14 +65,6 @@ class FirestoreService {
     }
   }
 
-  Future<void> updateLikes(
-      String collection, String docId, int newLikes) async {
-    await FirebaseFirestore.instance
-        .collection(collection)
-        .doc(docId)
-        .update({'likes_cnt': newLikes});
-  }
-
   /// 조회수 증가 메서드
   Future<void> incrementViews(String collection, String postId) async {
     final DocumentReference postRef =
@@ -87,5 +79,23 @@ class FirestoreService {
         transaction.update(postRef, {'views_cnt': currentViews + 1});
       }
     });
+  }
+
+  Future<void> updateLikesInBackground(
+      String postId, bool isLiked, int likes) async {
+    try {
+      await updateLikes('posts', postId, likes);
+    } catch (e) {
+      // 에러 처리: 예를 들어 로그를 남기거나 사용자에게 알림을 표시
+      print('Failed to update likes: $e');
+    }
+  }
+
+  Future<void> updateLikes(
+      String collection, String docId, int newLikes) async {
+    await FirebaseFirestore.instance
+        .collection(collection)
+        .doc(docId)
+        .update({'likes_cnt': newLikes});
   }
 }
