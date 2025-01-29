@@ -150,7 +150,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('게시글이 성공적으로 등록되었습니다.')),
+          const SnackBar(content: Text('게시글을 등록되었습니다.')),
         );
         context.go('/mainCommunity');
       }

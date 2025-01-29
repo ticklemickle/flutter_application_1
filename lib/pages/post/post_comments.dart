@@ -34,28 +34,27 @@ class _PostCommentsState extends State<PostComments> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: firestoreService
-                .getCommentsStream(widget.postId), // ✅ FirestoreRepository 활용
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CommonProgressIndicator());
-              }
-              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                return const Center(child: Text('첫 댓글을 남겨주세요.'));
-              }
+        // StreamBuilder로 데이터를 가져오는 부분을 ListView에서 Column으로 변경하여 스크롤 제거
+        StreamBuilder<QuerySnapshot>(
+          stream: firestoreService
+              .getCommentsStream(widget.postId), // ✅ FirestoreRepository 활용
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CommonProgressIndicator());
+            }
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return const Center(child: Text('첫 댓글을 남겨주세요.'));
+            }
 
-              return ListView(
-                children: snapshot.data!.docs.map((doc) {
-                  return ListTile(
-                    title: Text(doc['text']),
-                    subtitle: Text(formatRelativeTime(doc['timestamp'])),
-                  );
-                }).toList(),
-              );
-            },
-          ),
+            return Column(
+              children: snapshot.data!.docs.map((doc) {
+                return ListTile(
+                  title: Text(doc['text']),
+                  subtitle: Text(formatRelativeTime(doc['timestamp'])),
+                );
+              }).toList(),
+            );
+          },
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

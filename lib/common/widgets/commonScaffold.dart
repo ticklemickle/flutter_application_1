@@ -44,10 +44,12 @@ class CommonScaffold extends StatelessWidget {
   }
 
   Widget buildSearchBar(BuildContext context) {
+    final double ADD_POST_BTN_SIZE = 35;
+
     return PreferredSize(
       preferredSize: const Size.fromHeight(70), // 검색바 높이
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
         child: Row(
           children: [
             Expanded(
@@ -57,7 +59,7 @@ class CommonScaffold extends StatelessWidget {
                   counterText: '',
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(100),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: MyColors.grey),
@@ -73,18 +75,26 @@ class CommonScaffold extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: MyColors.mainColor,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.transparent),
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  context.push('/addPost');
-                },
-                color: Colors.black,
+            GestureDetector(
+              onTap: () {
+                context.push('/addPost');
+              },
+              child: Container(
+                width: ADD_POST_BTN_SIZE,
+                height: ADD_POST_BTN_SIZE,
+                decoration: BoxDecoration(
+                  color: MyColors.mainColor,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.transparent),
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: const Icon(
+                    Icons.add,
+                    size: 30,
+                    color: Colors.black,
+                  ),
+                ),
               ),
             ),
           ],

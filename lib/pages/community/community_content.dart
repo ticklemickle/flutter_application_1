@@ -56,7 +56,8 @@ class _CommunityContentState extends State<CommunityContent> {
     });
 
     try {
-      Query query = FirebaseFirestore.instance.collection('posts').limit(50);
+      Query query =
+          FirebaseFirestore.instance.collection('posts').limit(MAX_PAGE);
 
       // 선택된 카테고리 필터 적용
       if (selectedCategoryIndex != 0) {
@@ -95,7 +96,8 @@ class _CommunityContentState extends State<CommunityContent> {
         }
         _lastDocument =
             querySnapshot.docs.isNotEmpty ? querySnapshot.docs.last : null;
-        _hasMore = fetchedPosts.length == MAX_PAGE; // 데이터가 50개 이상일 경우 추가 로드 가능
+        _hasMore =
+            fetchedPosts.length == MAX_PAGE; // 데이터가 MAX_PAGE개 이상일 경우 추가 로드 가능
       });
     } catch (e) {
       print('Error loading posts: $e');
@@ -122,7 +124,8 @@ class _CommunityContentState extends State<CommunityContent> {
       children: [
         // 카테고리 선택
         SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
+          scrollDirection: Axis.vertical,
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
           child: Row(
             children: List.generate(categories.length, (index) {
               return Padding(
@@ -151,7 +154,7 @@ class _CommunityContentState extends State<CommunityContent> {
                   selectedColor: MyColors.mainColor,
                   backgroundColor: MyColors.lightGrey,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(100),
                   ),
                   side: BorderSide.none, // 테두리 제거
                   onSelected: (bool selected) {
@@ -169,13 +172,14 @@ class _CommunityContentState extends State<CommunityContent> {
         // 게시글 리스트
         Expanded(
           child: ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             controller: _scrollController,
             itemCount: _posts.length + 1,
             itemBuilder: (context, index) {
               if (index == _posts.length) {
                 return _isLoading
                     ? Center(
-                        // 로딩 인디케이터를 Center로 감싸서 중앙에 배치
+                        // 로딩 인디케이터를 ㄱCenter로 감싸서 중앙에 배치
                         child: SizedBox(
                           height:
                               MediaQuery.of(context).size.height, // 부모 높이에 맞춰서

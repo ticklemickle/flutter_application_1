@@ -35,7 +35,6 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
     return ErrorBoundary(
       child: Scaffold(
         appBar: AppBar(
-          scrolledUnderElevation: 0,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
@@ -81,42 +80,42 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
               likesNotifier.value = data['likes_cnt'] ?? 0;
               isLikedNotifier.value = false; // 기본 값 초기화
 
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildCategoryTag(category),
-                    const SizedBox(height: 8),
-                    Text(
-                      title,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '$author | $time',
-                      style: const TextStyle(
-                          color: MyColors.subFontColor, fontSize: 14),
-                    ),
-                    const Divider(height: 24, thickness: 1),
-                    Text(
-                      content,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const Divider(height: 24, thickness: 1),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _buildLikesSection(firestoreService, postId),
-                        Text('댓글 $comments   조회 $views회'),
-                      ],
-                    ),
-                    const Divider(height: 24, thickness: 1),
-                    Expanded(
-                      child: PostComments(postId: postId),
-                    ),
-                  ],
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildCategoryTag(category),
+                      const SizedBox(height: 8),
+                      Text(
+                        title,
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '$author | $time',
+                        style: const TextStyle(
+                            color: MyColors.subFontColor, fontSize: 14),
+                      ),
+                      const Divider(height: 24, thickness: 1),
+                      Text(
+                        content,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const Divider(height: 24, thickness: 1),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildLikesSection(firestoreService, postId),
+                          Text('댓글 $comments   조회 $views회'),
+                        ],
+                      ),
+                      const Divider(height: 24, thickness: 1),
+                      PostComments(postId: postId),
+                    ],
+                  ),
                 ),
               );
             }
