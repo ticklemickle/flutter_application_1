@@ -17,24 +17,28 @@ class MyInfoScreen extends StatelessWidget {
               decoration: const InputDecoration(
                 labelText: '닉네임',
               ),
+              maxLength: 50,
             ),
             const SizedBox(height: 10),
             TextField(
               decoration: const InputDecoration(
                 labelText: '지역',
               ),
+              maxLength: 100,
             ),
             const SizedBox(height: 10),
             TextField(
               decoration: const InputDecoration(
                 labelText: '생년월일',
               ),
+              maxLength: 8,
             ),
             const SizedBox(height: 10),
             TextField(
               decoration: const InputDecoration(
                 labelText: '성별',
               ),
+              maxLength: 10,
             ),
             const SizedBox(height: 20),
             ElevatedButton(

@@ -66,6 +66,7 @@ class CommonScaffold extends StatelessWidget {
                     ),
                   ),
                 ),
+                maxLength: 100,
               ),
             ),
             const SizedBox(width: 8),

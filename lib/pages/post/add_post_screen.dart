@@ -66,6 +66,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 hintText: '제목을 입력하세요',
                 border: UnderlineInputBorder(),
               ),
+              maxLength: 100,
             ),
             const SizedBox(height: 16),
             Expanded(
@@ -76,6 +77,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   hintText: '내용을 입력하세요',
                   border: InputBorder.none,
                 ),
+                maxLength: 1000,
               ),
             ),
           ],

@@ -76,6 +76,7 @@ class _PostCommentsState extends State<PostComments> {
                       ),
                     ),
                   ),
+                  maxLength: 500,
                 ),
               ),
               const SizedBox(height: 100, width: 8),
