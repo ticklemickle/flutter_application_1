@@ -98,4 +98,25 @@ class FirestoreService {
         .doc(docId)
         .update({'likes_cnt': newLikes});
   }
+
+  Stream<QuerySnapshot> getCommentsStream(String postId) {
+    return _firestore
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .orderBy('timestamp', descending: true)
+        .snapshots();
+  }
+
+  // 🔹 댓글 추가 메서드
+  Future<void> addComment(String postId, String text) async {
+    await _firestore
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .add({
+      'text': text,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+  }
 }

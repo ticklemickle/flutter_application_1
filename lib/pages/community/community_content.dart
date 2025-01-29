@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/themes/colors.dart';
+import 'package:flutter_application_1/common/widgets/commonProgressIndicator.dart';
 import 'package:flutter_application_1/common/utils/DateTimeUtil.dart';
 
 import 'package:go_router/go_router.dart';
@@ -173,14 +174,21 @@ class _CommunityContentState extends State<CommunityContent> {
             itemBuilder: (context, index) {
               if (index == _posts.length) {
                 return _isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : const SizedBox(); // 로딩 인디케이터
+                    ? Center(
+                        // 로딩 인디케이터를 Center로 감싸서 중앙에 배치
+                        child: SizedBox(
+                          height:
+                              MediaQuery.of(context).size.height, // 부모 높이에 맞춰서
+                          child: const CommonProgressIndicator(),
+                        ),
+                      )
+                    : const SizedBox(); // 로딩이 끝나면 빈 SizedBox
               }
 
               final post = _posts[index];
               return InkWell(
                 onTap: () {
-                  context.push('/viewPost/${post['id']}'); // URL에 id 포함
+                  context.push('/viewPost/${post['id']}');
                 },
                 child: _buildPostItem(
                   title: post['title'] ?? 'Untitled',

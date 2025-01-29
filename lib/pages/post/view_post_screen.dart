@@ -3,6 +3,8 @@ import 'package:flutter_application_1/common/themes/colors.dart';
 import 'package:flutter_application_1/common/utils/dateTimeUtil.dart';
 import 'package:flutter_application_1/common/widgets/errorBoundary.dart';
 import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
+import 'package:flutter_application_1/common/widgets/commonProgressIndicator.dart';
+import 'package:flutter_application_1/pages/post/post_comments.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -59,7 +61,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
           future: _incrementViewsAndFetchPost(firestoreService, postId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: CommonProgressIndicator());
             } else if (snapshot.hasError) {
               return const Center(child: Text('데이터를 불러오는데 실패했습니다.'));
             } else if (snapshot.data == null) {
@@ -110,18 +112,8 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                       ],
                     ),
                     const Divider(height: 24, thickness: 1),
-                    ElevatedButton(
-                      onPressed: () {
-                        // 댓글 남기기 동작
-                      },
-                      child: const Text('첫 댓글 남기기'),
-                    ),
-                    const SizedBox(height: 16),
-                    const TextField(
-                      decoration: InputDecoration(
-                        hintText: '댓글을 남겨주세요.',
-                        border: OutlineInputBorder(),
-                      ),
+                    Expanded(
+                      child: PostComments(postId: postId),
                     ),
                   ],
                 ),
