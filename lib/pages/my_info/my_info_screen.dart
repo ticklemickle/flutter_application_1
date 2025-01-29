@@ -7,6 +7,7 @@ class MyInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         title: const Text('내 정보 수정'),
       ),
       body: Padding(

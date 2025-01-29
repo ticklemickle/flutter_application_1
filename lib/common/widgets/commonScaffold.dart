@@ -25,6 +25,7 @@ class CommonScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: MyColors.mainBackgroundColor, // 배경색
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         title: isSearchBarVisible
             ? buildSearchBar(context) // 검색바를 별도 메서드로 분리
             : Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/common/themes/colors.dart';
 import 'package:flutter_application_1/common/widgets/restartWidget.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'routes/app_routes.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         routerConfig: AppRoutes.router,
         title: '티끌미끌',
         theme: ThemeData(
+          scaffoldBackgroundColor: MyColors.mainBackgroundColor,
           primarySwatch: Colors.blue,
         ),
       ),

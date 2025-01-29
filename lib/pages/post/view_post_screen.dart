@@ -35,6 +35,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
     return ErrorBoundary(
       child: Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
