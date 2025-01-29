@@ -17,6 +17,8 @@ class MyInfoScreen extends StatelessWidget {
             TextField(
               decoration: const InputDecoration(
                 labelText: '닉네임',
+                isDense: true,
+                contentPadding: EdgeInsets.all(10),
               ),
               maxLength: 50,
             ),
@@ -24,6 +26,8 @@ class MyInfoScreen extends StatelessWidget {
             TextField(
               decoration: const InputDecoration(
                 labelText: '지역',
+                isDense: true,
+                contentPadding: EdgeInsets.all(10),
               ),
               maxLength: 100,
             ),
@@ -31,6 +35,8 @@ class MyInfoScreen extends StatelessWidget {
             TextField(
               decoration: const InputDecoration(
                 labelText: '생년월일',
+                isDense: true,
+                contentPadding: EdgeInsets.all(10),
               ),
               maxLength: 8,
             ),
@@ -38,6 +44,8 @@ class MyInfoScreen extends StatelessWidget {
             TextField(
               decoration: const InputDecoration(
                 labelText: '성별',
+                isDense: true,
+                contentPadding: EdgeInsets.all(10),
               ),
               maxLength: 10,
             ),

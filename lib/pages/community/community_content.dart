@@ -124,7 +124,7 @@ class _CommunityContentState extends State<CommunityContent> {
       children: [
         // 카테고리 선택
         SingleChildScrollView(
-          scrollDirection: Axis.vertical,
+          scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
           child: Row(
             children: List.generate(categories.length, (index) {

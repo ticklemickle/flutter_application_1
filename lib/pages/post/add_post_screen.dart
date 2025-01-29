@@ -66,7 +66,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               controller: titleController,
               decoration: const InputDecoration(
                 hintText: '제목을 입력하세요',
-                border: UnderlineInputBorder(),
+                border: InputBorder.none,
               ),
               maxLength: 100,
             ),

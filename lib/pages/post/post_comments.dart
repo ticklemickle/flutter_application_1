@@ -66,6 +66,8 @@ class _PostCommentsState extends State<PostComments> {
                   decoration: const InputDecoration(
                     hintText: '댓글을 남겨주세요.',
                     counterText: '',
+                    isDense: true,
+                    contentPadding: EdgeInsets.all(10),
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: MyColors.grey),
                     ),

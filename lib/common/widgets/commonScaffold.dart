@@ -57,6 +57,8 @@ class CommonScaffold extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: '검색',
                   counterText: '',
+                  isDense: true,
+                  contentPadding: EdgeInsets.all(10),
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(100),
