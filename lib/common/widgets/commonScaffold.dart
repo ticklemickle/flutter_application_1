@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/themes/colors.dart';
+import 'package:go_router/go_router.dart';
 
 class CommonScaffold extends StatelessWidget {
   final Widget child;
@@ -52,6 +53,7 @@ class CommonScaffold extends StatelessWidget {
               child: TextField(
                 decoration: InputDecoration(
                   hintText: '검색',
+                  counterText: '',
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -79,7 +81,7 @@ class CommonScaffold extends StatelessWidget {
               child: IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/addPost');
+                  context.push('/addPost');
                 },
                 color: Colors.black,
               ),

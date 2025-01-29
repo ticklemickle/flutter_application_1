@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MainSettingScreen extends StatelessWidget {
   const MainSettingScreen({super.key});
@@ -20,8 +21,7 @@ class MainSettingScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  // my_info_screen.dart로 이동
-                  Navigator.pushNamed(context, '/myInfo');
+                  context.push('/myInfo');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey[200], // 버튼 배경 색상

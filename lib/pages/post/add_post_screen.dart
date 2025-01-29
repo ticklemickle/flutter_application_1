@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
+import 'package:go_router/go_router.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
@@ -75,6 +76,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 maxLines: null,
                 decoration: const InputDecoration(
                   hintText: '내용을 입력하세요',
+                  counterText: '',
                   border: InputBorder.none,
                 ),
                 maxLength: 1000,
@@ -93,14 +95,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
         title: const Text('해당 창에서 나가시겠습니까?'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(context), // '아니오' 버튼에서 그냥 Dialog 닫기
             child: const Text('아니오'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(context); // Dialog 닫기
-              Navigator.pushReplacementNamed(
-                  context, '/mainCommunity'); // 메인 커뮤니티로 이동
+              context.go('/mainCommunity');
             },
             child: const Text('예'),
           ),
@@ -151,7 +151,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('게시글이 성공적으로 등록되었습니다.')),
         );
-        Navigator.pushReplacementNamed(context, '/mainCommunity');
+        context.go('/mainCommunity');
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
