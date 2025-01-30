@@ -68,7 +68,7 @@ class _CommentInputFieldState extends State<CommentInputField> {
             style: ElevatedButton.styleFrom(
               backgroundColor:
                   isTextNotEmpty ? MyColors.mainColor : MyColors.grey,
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),

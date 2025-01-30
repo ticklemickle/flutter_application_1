@@ -12,7 +12,7 @@ class PostActions extends StatelessWidget {
     final provider = Provider.of<ViewPostProvider>(context, listen: false);
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Row(
           children: [
@@ -30,13 +30,9 @@ class PostActions extends StatelessWidget {
             ValueListenableBuilder<int>(
               valueListenable: provider.likesNotifier,
               builder: (context, likes, child) {
-                return Text('$likes');
+                return Text('$likes 개   ');
               },
             ),
-          ],
-        ),
-        Row(
-          children: [
             ValueListenableBuilder<int>(
               valueListenable: provider.commentsNotifier,
               builder: (context, comments, child) {
