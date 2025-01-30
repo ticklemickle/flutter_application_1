@@ -15,7 +15,7 @@ class CommunityContent extends StatefulWidget {
 
 class _CommunityContentState extends State<CommunityContent> {
   int selectedCategoryIndex = 0;
-  final int MAX_PAGE = 5;
+  final int MAX_PAGE = 10;
   final List<String> categories = ['전체', '부동산', '주식', '코인', '재테크', '기타'];
   final ScrollController _scrollController = ScrollController();
 
@@ -39,10 +39,13 @@ class _CommunityContentState extends State<CommunityContent> {
 
   // 스크롤 이벤트 처리
   void _onScroll() {
-    if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent &&
+    // print( "🔽 Scrolling... Pixels: ${_scrollController.position.pixels}, Max: ${_scrollController.position.maxScrollExtent}");
+
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - 100 &&
         !_isLoading &&
         _hasMore) {
+      print("📢 Loading more posts...");
       _loadMorePosts();
     }
   }
@@ -59,13 +62,11 @@ class _CommunityContentState extends State<CommunityContent> {
       Query query =
           FirebaseFirestore.instance.collection('posts').limit(MAX_PAGE);
 
-      // 선택된 카테고리 필터 적용
       if (selectedCategoryIndex != 0) {
         final selectedCategory = categories[selectedCategoryIndex];
         query = query.where('category', isEqualTo: selectedCategory);
       }
 
-      // 페이징 처리
       if (!reset && _lastDocument != null) {
         query = query.startAfterDocument(_lastDocument!);
       }
@@ -73,31 +74,31 @@ class _CommunityContentState extends State<CommunityContent> {
       final querySnapshot = await query.get();
       final fetchedPosts = querySnapshot.docs
           .map((doc) {
-            // doc.data()의 타입을 명시적으로 지정
-            final data =
-                doc.data() as Map<String, dynamic>?; // 데이터가 Map일 경우에만 처리
+            final data = doc.data() as Map<String, dynamic>?;
             if (data != null) {
               return {
                 ...data,
-                'id': doc.id, // Firestore 문서 ID 추가
+                'id': doc.id,
               };
             }
-            return null; // 데이터가 null일 경우 null 반환
+            return null;
           })
-          .where((post) => post != null) // null 값을 필터링
-          .cast<Map<String, dynamic>>() // List의 타입을 Map<String, dynamic>으로 변환
+          .where((post) => post != null)
+          .cast<Map<String, dynamic>>()
           .toList();
 
       setState(() {
         if (reset) {
-          _posts = fetchedPosts; // 초기화 후 새로운 데이터로 교체
+          _posts = fetchedPosts;
         } else {
-          _posts.addAll(fetchedPosts); // 기존 데이터에 추가
+          _posts.addAll(fetchedPosts);
         }
-        _lastDocument =
-            querySnapshot.docs.isNotEmpty ? querySnapshot.docs.last : null;
-        _hasMore =
-            fetchedPosts.length == MAX_PAGE; // 데이터가 MAX_PAGE개 이상일 경우 추가 로드 가능
+
+        if (querySnapshot.docs.isNotEmpty) {
+          _lastDocument = querySnapshot.docs.last;
+        }
+
+        _hasMore = querySnapshot.docs.length >= MAX_PAGE;
       });
     } catch (e) {
       print('Error loading posts: $e');

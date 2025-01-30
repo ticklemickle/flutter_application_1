@@ -50,13 +50,7 @@ class _CommentInputFieldState extends State<CommentInputField> {
                 isDense: true,
                 contentPadding: EdgeInsets.all(10),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: MyColors.grey),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: MyColors.mainlightColor,
-                    width: 2.0,
-                  ),
+                  borderSide: BorderSide.none,
                 ),
               ),
               maxLength: 500,
@@ -80,7 +74,7 @@ class _CommentInputFieldState extends State<CommentInputField> {
               ),
             ),
             child: Text(
-              '남기기',
+              '등록',
               style: TextStyle(
                 color: MyColors.mainFontColor,
                 fontSize: 14,
