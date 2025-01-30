@@ -21,7 +21,16 @@ class ViewPostScreen extends StatelessWidget {
           firestoreService: FirestoreService(), postId: postId),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('게시글'),
+          title: SizedBox(
+            height: kToolbarHeight / 3,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Image.asset(
+                'assets/icon/appBar_logo.png',
+                fit: BoxFit.contain, // 비율 유지하면서 크기 조정
+              ),
+            ),
+          ),
           actions: [
             IconButton(
               icon: const Icon(Icons.share),

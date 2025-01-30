@@ -180,7 +180,7 @@ class _CommunityContentState extends State<CommunityContent> {
               if (index == _posts.length) {
                 return _isLoading
                     ? Center(
-                        // 로딩 인디케이터를 ㄱCenter로 감싸서 중앙에 배치
+                        // 로딩 인디케이터를 Center로 감싸서 중앙에 배치
                         child: SizedBox(
                           height:
                               MediaQuery.of(context).size.height, // 부모 높이에 맞춰서
