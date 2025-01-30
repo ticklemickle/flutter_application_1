@@ -21,11 +21,17 @@ class CommentList extends StatelessWidget {
       stream: firestoreService.getCommentsStream(postId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return SizedBox(
+            height: 300,
+            child: const Center(child: CircularProgressIndicator()),
+          );
         }
 
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return const Center(child: Text('첫 댓글을 남겨주세요.'));
+          return SizedBox(
+            height: 300,
+            child: const Center(child: Text('첫 댓글을 남겨주세요.')),
+          );
         }
 
         // 댓글 개수 업데이트를 빌드 후 실행하도록 변경

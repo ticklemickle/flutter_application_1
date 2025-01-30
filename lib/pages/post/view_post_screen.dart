@@ -59,9 +59,13 @@ class ViewPostScreen extends StatelessWidget {
                         const SizedBox(height: 16),
                         PostContent(content: provider.content),
                         PostActions(postId: postId),
-                        CommentList(
+                        Container(
+                          alignment: Alignment.center, // 중앙 정렬
+                          child: CommentList(
                             postId: postId,
-                            firestoreService: provider.firestoreService),
+                            firestoreService: provider.firestoreService,
+                          ),
+                        ),
                       ],
                     ),
                   );
