@@ -21,6 +21,7 @@ class ViewPostScreen extends StatelessWidget {
           firestoreService: FirestoreService(), postId: postId),
       child: Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: SizedBox(
             height: kToolbarHeight / 3,
             child: Align(

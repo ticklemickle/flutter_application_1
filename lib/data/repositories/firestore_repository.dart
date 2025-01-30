@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_1/data/models/post.dart';
+import 'dart:math';
+import 'package:intl/intl.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final int maxPage;
+
+  FirestoreService({this.maxPage = 10});
 
   Future<void> addPost({
     required String author,
@@ -11,7 +15,13 @@ class FirestoreService {
     required String content,
     required DateTime registerTime,
   }) async {
-    await _firestore.collection('posts').add({
+    String timestamp = DateFormat('yyyyMMddHHmmss').format(registerTime);
+    String randomNum =
+        Random().nextInt(9999).toString().padLeft(4, '0'); // 4자리 난수
+    String documentId = '$timestamp$randomNum';
+
+    // 2️⃣ Firestore에 문서 추가
+    await _firestore.collection('posts').doc(documentId).set({
       'author': author,
       'category': category,
       'title': title,
@@ -24,27 +34,40 @@ class FirestoreService {
     });
   }
 
-  Stream<List<Post>> getPosts({String? category}) {
-    final query = _firestore.collection('posts');
+  Future<List<Map<String, dynamic>>> getPosts({
+    required int selectedCategoryIndex,
+    required List<String> categories,
+    DocumentSnapshot? lastDocument,
+  }) async {
+    try {
+      Query query = _firestore
+          .collection('posts')
+          .orderBy(FieldPath.documentId, descending: true)
+          .limit(maxPage);
 
-    // 카테고리가 null이 아니면 where 조건 추가
-    final filteredQuery =
-        category != null ? query.where('category', isEqualTo: category) : query;
+      if (selectedCategoryIndex != 0) {
+        final selectedCategory = categories[selectedCategoryIndex];
+        query = query.where('category', isEqualTo: selectedCategory);
+      }
 
-    return filteredQuery.snapshots().map((snapshot) {
-      return snapshot.docs
-          .map((doc) {
-            try {
-              return Post.fromMap(doc.data());
-            } catch (e) {
-              print('Error parsing post with ID ${doc.id}: $e');
-              return null;
-            }
-          })
-          .where((post) => post != null) // null 제거
-          .cast<Post>() // Post 타입으로 변환
-          .toList();
-    });
+      if (lastDocument != null) {
+        query = query.startAfterDocument(lastDocument);
+      }
+
+      final querySnapshot = await query.get();
+
+      return querySnapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>? ?? {};
+        return {
+          ...data,
+          'id': doc.id,
+          'docRef': doc, // 🔥 문서 객체 추가
+        };
+      }).toList();
+    } catch (e) {
+      print('🔥 Firestore 오류: $e');
+      return [];
+    }
   }
 
   Future<Map<String, dynamic>?> getPostById(
