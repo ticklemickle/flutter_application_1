@@ -112,9 +112,10 @@ class _CommunityContentState extends State<CommunityContent> {
               return InkWell(
                 onTap: () => context.push('/viewPost/${post['id']}'),
                 child: _buildPostItem(
-                  title: post['title'] ?? 'Untitled',
+                  title: post['title'] ?? '제목없음',
+                  content: post['content'] ?? '',
                   author: post['author'] ?? 'Unknown',
-                  time: formatTimestamp(post['register_time']),
+                  time: formatRelativeTime(post['register_time']),
                   comments: post['comments_cnt'] ?? 0,
                   views: post['views_cnt'] ?? 0,
                   likes: post['likes_cnt'] ?? 0,
@@ -177,6 +178,7 @@ class _CommunityContentState extends State<CommunityContent> {
 
   Widget _buildPostItem({
     required String title,
+    required String content,
     required String author,
     required String time,
     required int comments,
@@ -190,20 +192,45 @@ class _CommunityContentState extends State<CommunityContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis, // 길 경우 "..." 표시
+                    ),
+                  ),
+                  const SizedBox(width: 8), // 간격 조정
+                  Text(
+                    time,
+                    style: const TextStyle(
+                        color: MyColors.subFontColor, fontSize: 12),
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
               Text(
-                '$time | $author',
-                style:
-                    const TextStyle(color: MyColors.subFontColor, fontSize: 14),
+                content,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: MyColors.subFontColor,
+                  fontWeight: FontWeight.normal,
+                ),
+                maxLines: 2, // 최대 2줄까지만 표시
+                overflow: TextOverflow.ellipsis, // 초과 시 ... 표시
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
+              Text(
+                author,
+                style:
+                    const TextStyle(color: MyColors.subFontColor, fontSize: 12),
+              ),
+              const SizedBox(height: 8),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Row(
                     children: [
