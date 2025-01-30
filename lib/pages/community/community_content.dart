@@ -18,7 +18,7 @@ class _CommunityContentState extends State<CommunityContent> {
   final ScrollController _scrollController = ScrollController();
 
   int selectedCategoryIndex = 0;
-  final List<String> categories = ['전체', '부동산', '주식', '코인', '재테크', '기타'];
+  final List<String> categories = ['부동산', '주식', '코인', '재테크', '기타'];
 
   List<Map<String, dynamic>> _posts = [];
   bool _isLoading = false;
@@ -212,17 +212,18 @@ class _CommunityContentState extends State<CommunityContent> {
                 ],
               ),
               const SizedBox(height: 8),
-              Text(
-                content,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: MyColors.subFontColor,
-                  fontWeight: FontWeight.normal,
-                ),
-                maxLines: 2, // 최대 2줄까지만 표시
-                overflow: TextOverflow.ellipsis, // 초과 시 ... 표시
-              ),
-              const SizedBox(height: 8),
+              content.isNotEmpty
+                  ? Text(
+                      content,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: MyColors.subFontColor,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      maxLines: 2, // 최대 2줄까지만 표시
+                      overflow: TextOverflow.ellipsis, // 초과 시 ... 표시
+                    )
+                  : const SizedBox.shrink(),
               Text(
                 author,
                 style:

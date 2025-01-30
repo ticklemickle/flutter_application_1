@@ -45,10 +45,11 @@ class FirestoreService {
           .orderBy(FieldPath.documentId, descending: true)
           .limit(maxPage);
 
-      if (selectedCategoryIndex != 0) {
-        final selectedCategory = categories[selectedCategoryIndex];
-        query = query.where('category', isEqualTo: selectedCategory);
-      }
+      /* 전체 카테고리를 보여주고자 하면 주석을 해제 */
+      // if (selectedCategoryIndex != 0) {
+      final selectedCategory = categories[selectedCategoryIndex];
+      query = query.where('category', isEqualTo: selectedCategory);
+      // }
 
       if (lastDocument != null) {
         query = query.startAfterDocument(lastDocument);
