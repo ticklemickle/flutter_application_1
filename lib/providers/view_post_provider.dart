@@ -49,12 +49,11 @@ class ViewPostProvider extends ChangeNotifier {
     isLiked = !isLiked;
     likesNotifier.value += isLiked ? 1 : -1;
 
-    firestoreService.updateLikesInBackground(
-        postId, isLiked, likesNotifier.value);
+    firestoreService.updateLikesInBackground(postId, likesNotifier.value);
   }
 
   void updateCommentCount(int count) {
     commentsNotifier.value = count;
-    // Future.microtask(() => notifyListeners());
+    firestoreService.updateCommentsInBackground(postId, commentsNotifier.value);
   }
 }

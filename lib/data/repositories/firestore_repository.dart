@@ -81,8 +81,7 @@ class FirestoreService {
     });
   }
 
-  Future<void> updateLikesInBackground(
-      String postId, bool isLiked, int likes) async {
+  Future<void> updateLikesInBackground(String postId, int likes) async {
     try {
       await updateLikes('posts', postId, likes);
     } catch (e) {
@@ -92,11 +91,29 @@ class FirestoreService {
   }
 
   Future<void> updateLikes(
-      String collection, String docId, int newLikes) async {
+      String collection, String docId, int likesCnt) async {
     await FirebaseFirestore.instance
         .collection(collection)
         .doc(docId)
-        .update({'likes_cnt': newLikes});
+        .update({'likes_cnt': likesCnt});
+  }
+
+  Future<void> updateCommentsInBackground(
+      String postId, int commentsCnt) async {
+    try {
+      await updateComments('posts', postId, commentsCnt);
+    } catch (e) {
+      // 에러 처리: 예를 들어 로그를 남기거나 사용자에게 알림을 표시
+      print('Failed to update comments_cnt: $e');
+    }
+  }
+
+  Future<void> updateComments(
+      String collection, String docId, int commentsCnt) async {
+    await FirebaseFirestore.instance
+        .collection(collection)
+        .doc(docId)
+        .update({'comments_cnt': commentsCnt});
   }
 
   Stream<QuerySnapshot> getCommentsStream(String postId) {
