@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/common/themes/colors.dart';
+import 'package:flutter_application_1/common/widgets/commonProgressIndicator.dart';
 import 'package:flutter_application_1/providers/view_post_provider.dart';
 import 'package:flutter_application_1/common/widgets/post/post_header.dart';
 import 'package:flutter_application_1/common/widgets/post/post_content.dart';
@@ -55,7 +55,7 @@ class ViewPostScreen extends StatelessWidget {
         body: Consumer<ViewPostProvider>(
           builder: (context, provider, child) {
             return provider.isLoading
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(child: CommonProgressIndicator())
                 : SingleChildScrollView(
                     padding: const EdgeInsets.fromLTRB(25, 0, 25, 60),
                     child: Column(

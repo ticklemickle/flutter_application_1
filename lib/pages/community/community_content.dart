@@ -203,7 +203,7 @@ class _CommunityContentState extends State<CommunityContent> {
                       overflow: TextOverflow.ellipsis, // 길 경우 "..." 표시
                     ),
                   ),
-                  const SizedBox(width: 8), // 간격 조정
+                  const SizedBox(width: 15), // 간격 조정
                   Text(
                     time,
                     style: const TextStyle(
@@ -219,6 +219,7 @@ class _CommunityContentState extends State<CommunityContent> {
                         fontSize: 14,
                         color: MyColors.subFontColor,
                         fontWeight: FontWeight.normal,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       maxLines: 2, // 최대 2줄까지만 표시
                       overflow: TextOverflow.ellipsis, // 초과 시 ... 표시
@@ -229,7 +230,7 @@ class _CommunityContentState extends State<CommunityContent> {
                 style:
                     const TextStyle(color: MyColors.subFontColor, fontSize: 12),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

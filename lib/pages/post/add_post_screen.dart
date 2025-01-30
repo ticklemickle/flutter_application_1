@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/common/widgets/commonDialog.dart';
 import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,17 +23,18 @@ class _AddPostScreenState extends State<AddPostScreen> {
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
+        backgroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
-            _showExitDialog();
+            _showExitDialog(context);
           },
         ),
         title: const Text(''),
         actions: [
           TextButton(
             onPressed: () {
-              _showConfirmDialog();
+              _showConfirmDialog(context);
             },
             child: const Text(
               '등록',
@@ -89,47 +91,33 @@ class _AddPostScreenState extends State<AddPostScreen> {
     );
   }
 
-  void _showExitDialog() {
-    showDialog(
+  void _showExitDialog(BuildContext context) {
+    CommonDialog.show(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('해당 창에서 나가시겠습니까?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context), // '아니오' 버튼에서 그냥 Dialog 닫기
-            child: const Text('아니오'),
-          ),
-          TextButton(
-            onPressed: () {
-              context.go('/mainCommunity');
-            },
-            child: const Text('예'),
-          ),
-        ],
-      ),
+      title: '해당 창에서 나가시겠습니까?', // 제목
+      leftButtonText: '아니요', // 왼쪽 버튼
+      leftButtonAction: () => Navigator.pop(context), // 닫기 기능
+      rightButtonText: '예', // 오른쪽 버튼
+      rightButtonAction: () {
+        context.go('/mainCommunity'); // 특정 화면으로 이동
+      },
     );
   }
 
-  void _showConfirmDialog() {
+  void _showConfirmDialog(BuildContext context) {
     if (selectedCategory != null && titleController.text.isNotEmpty) {
-      showDialog(
+      CommonDialog.show(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text('$selectedCategory 게시판에 등록하시겠습니까?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('아니오'),
-            ),
-            TextButton(
-              onPressed: () async {
-                Navigator.pop(context);
-                await _addPostToFirestore(); // Firestore 저장
-              },
-              child: const Text('예'),
-            ),
-          ],
-        ),
+        title: '$selectedCategory 게시판에 등록하시겠습니까?',
+        leftButtonText: '아니요', // 왼쪽 버튼
+        leftButtonAction: () async {
+          Navigator.pop(context);
+          await _addPostToFirestore(); // Firestore 저장
+        },
+        rightButtonText: '예', // 오른쪽 버튼
+        rightButtonAction: () {
+          context.go('/mainCommunity'); // 특정 화면으로 이동
+        },
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -141,7 +129,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   Future<void> _addPostToFirestore() async {
     try {
       await firestoreService.addPost(
-        author: '서울 강남구 여자 | user123', // 예시 데이터, 실제로는 사용자 인증 정보 활용
+        author: '서울 강서구 남자 | user123', // 예시 데이터, 실제로는 사용자 인증 정보 활용
         category: selectedCategory!,
         title: titleController.text,
         content: contentController.text,

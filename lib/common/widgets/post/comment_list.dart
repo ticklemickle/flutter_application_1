@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_1/common/widgets/commonProgressIndicator.dart';
 import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
 import 'package:flutter_application_1/common/utils/dateTimeUtil.dart';
 import 'package:flutter_application_1/providers/view_post_provider.dart';
@@ -23,7 +24,7 @@ class CommentList extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return SizedBox(
             height: 300,
-            child: const Center(child: CircularProgressIndicator()),
+            child: const Center(child: CommonProgressIndicator()),
           );
         }
 
