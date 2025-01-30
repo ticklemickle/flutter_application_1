@@ -30,6 +30,12 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: MyColors.mainBackgroundColor,
           primarySwatch: Colors.blue,
+          textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: MyColors.grey, // 커서 색상
+            selectionColor: MyColors.mainlightestColor, // 선택된 텍스트 배경 색상
+            selectionHandleColor:
+                MyColors.mainDarkColor, // 선택 핸들 색상 (드래그할 때 나오는 손잡이)
+          ),
         ),
       ),
     );

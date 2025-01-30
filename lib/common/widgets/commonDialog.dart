@@ -16,7 +16,7 @@ class CommonDialog {
       barrierDismissible: true, // 바깥 클릭 시 닫기
       builder: (context) {
         return Dialog(
-          backgroundColor: MyColors.lightGrey,
+          backgroundColor: MyColors.lightestGrey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0), // 모서리 둥글게
           ),

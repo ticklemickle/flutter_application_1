@@ -49,8 +49,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DropdownButton<String>(
+              dropdownColor: Colors.white,
+              underline: SizedBox.shrink(),
               value: selectedCategory,
-              hint: const Text('게시판 선택'),
+              hint: const Text('게시판 선택 '),
               items: ['부동산', '주식', '코인', '재테크', '기타']
                   .map((category) => DropdownMenuItem(
                         value: category,
@@ -92,16 +94,20 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   void _showExitDialog(BuildContext context) {
-    CommonDialog.show(
-      context: context,
-      title: '해당 창에서 나가시겠습니까?', // 제목
-      leftButtonText: '아니요', // 왼쪽 버튼
-      leftButtonAction: () => Navigator.pop(context), // 닫기 기능
-      rightButtonText: '예', // 오른쪽 버튼
-      rightButtonAction: () {
-        context.go('/mainCommunity'); // 특정 화면으로 이동
-      },
-    );
+    if (titleController.text.isNotEmpty || contentController.text.isNotEmpty) {
+      CommonDialog.show(
+        context: context,
+        title: '게시물 등록을 취소하시겠습니까?', // 제목
+        leftButtonText: '아니요', // 왼쪽 버튼
+        leftButtonAction: () => Navigator.pop(context), // 닫기 기능
+        rightButtonText: '예', // 오른쪽 버튼
+        rightButtonAction: () {
+          context.go('/mainCommunity'); // 특정 화면으로 이동
+        },
+      );
+    } else {
+      context.go('/mainCommunity'); // 특정 화면으로 이동
+    }
   }
 
   void _showConfirmDialog(BuildContext context) {
