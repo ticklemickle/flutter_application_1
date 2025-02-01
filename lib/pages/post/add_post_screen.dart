@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/common/themes/colors.dart';
 import 'package:flutter_application_1/common/widgets/commonDialog.dart';
 import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
 import 'package:go_router/go_router.dart';
@@ -38,7 +39,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
             },
             child: const Text(
               '등록',
-              style: TextStyle(color: Colors.blue, fontSize: 16),
+              style: TextStyle(color: MyColors.mainDarkColor, fontSize: 16),
             ),
           ),
         ],

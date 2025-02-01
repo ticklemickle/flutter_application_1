@@ -16,9 +16,9 @@ class CommonDialog {
       barrierDismissible: true, // 바깥 클릭 시 닫기
       builder: (context) {
         return Dialog(
-          backgroundColor: MyColors.lightestGrey,
+          backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0), // 모서리 둥글게
+            borderRadius: BorderRadius.circular(10.0), // 모서리 둥글게
           ),
           child: SizedBox(
             width: width, // 원하는 크기로 설정
@@ -31,8 +31,8 @@ class CommonDialog {
                     title,
                     style: const TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -45,8 +45,11 @@ class CommonDialog {
                           style: TextButton.styleFrom(
                             backgroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(2.0),
-                              side: BorderSide.none,
+                              borderRadius: BorderRadius.circular(1.0),
+                              side: BorderSide(
+                                color: MyColors.grey, // 테두리 색상
+                                width: 1.0, // 테두리 두께
+                              ),
                             ),
                           ),
                           child: Text(
@@ -54,7 +57,7 @@ class CommonDialog {
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
                         ),
@@ -64,9 +67,9 @@ class CommonDialog {
                         child: TextButton(
                           onPressed: rightButtonAction, // 오른쪽 버튼 기능
                           style: TextButton.styleFrom(
-                            backgroundColor: Colors.cyan[100], // 파란색 계열 배경
+                            backgroundColor: MyColors.mainColor,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(2.0),
+                              borderRadius: BorderRadius.circular(1.0),
                               side: BorderSide.none,
                             ),
                           ),
