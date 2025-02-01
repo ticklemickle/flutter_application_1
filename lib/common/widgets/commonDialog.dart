@@ -9,7 +9,7 @@ class CommonDialog {
     required VoidCallback leftButtonAction, // 왼쪽 버튼 동작
     required String rightButtonText, // 오른쪽 버튼 텍스트
     required VoidCallback rightButtonAction, // 오른쪽 버튼 동작
-    double width = 350.0, // 기본값 설정
+    double width = 350.0, // 기본값
   }) {
     showDialog(
       context: context,
@@ -21,7 +21,7 @@ class CommonDialog {
             borderRadius: BorderRadius.circular(10.0), // 모서리 둥글게
           ),
           child: SizedBox(
-            width: width, // 원하는 크기로 설정
+            width: width,
             child: Padding(
               padding: const EdgeInsets.all(30.0),
               child: Column(

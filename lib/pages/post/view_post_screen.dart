@@ -25,7 +25,7 @@ class ViewPostScreen extends StatelessWidget {
           scrolledUnderElevation: 0,
           backgroundColor: Colors.white,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios), // 원하는 아이콘 설정
+            icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
               Navigator.of(context).pop(); // 뒤로가기 동작
             },

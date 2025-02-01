@@ -41,7 +41,7 @@ class FirestoreService {
     required int limit, // 🔥 limit을 파라미터로 받음
   }) async {
     try {
-      int fetchLimit = (limit > 0) ? limit : 10; // 🔥 기본값 설정
+      int fetchLimit = (limit > 0) ? limit : 10; // 기본값
 
       Query query = _firestore
           .collection('posts')
