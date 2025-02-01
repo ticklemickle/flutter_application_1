@@ -34,6 +34,7 @@ class _CommunityContentState extends State<CommunityContent> {
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }
@@ -49,7 +50,7 @@ class _CommunityContentState extends State<CommunityContent> {
   }
 
   Future<void> _loadMorePosts({bool reset = false}) async {
-    if (_isLoading) return;
+    if (_isLoading || !_hasMore) return; // 🔥 더 이상 가져올 데이터가 없으면 종료
 
     setState(() => _isLoading = true);
 
@@ -58,6 +59,7 @@ class _CommunityContentState extends State<CommunityContent> {
         selectedCategoryIndex: selectedCategoryIndex,
         categories: categories,
         lastDocument: reset ? null : _lastDocument,
+        limit: _firestoreRepository.maxPage, // 🔥 maxPage 개수만큼 가져오기
       );
 
       setState(() {
@@ -68,9 +70,8 @@ class _CommunityContentState extends State<CommunityContent> {
         }
 
         if (fetchedPosts.isNotEmpty) {
-          _lastDocument = fetchedPosts.last['docRef']; // 🔥 docRef를 사용
+          _lastDocument = fetchedPosts.last['docRef']; // 🔥 마지막 문서 업데이트
         }
-
         _hasMore = fetchedPosts.length >= _firestoreRepository.maxPage;
       });
     } catch (e) {
@@ -149,10 +150,10 @@ class _CommunityContentState extends State<CommunityContent> {
                     color: selectedCategoryIndex == index
                         ? MyColors.mainFontColor // 선택된 상태 글씨 색상
                         : MyColors.subFontColor, // 선택되지 않은 상태 글씨 색상
-                    fontSize: 14,
+                    fontSize: 15,
                     fontWeight: selectedCategoryIndex == index
-                        ? FontWeight.bold // 선택된 상태는 Bold
-                        : FontWeight.normal, // 기본 상태는 Normal
+                        ? FontWeight.normal // 선택된 상태
+                        : FontWeight.normal, // 기본 상태
                   ),
                 ),
               ),

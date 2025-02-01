@@ -90,13 +90,17 @@ class CommonScaffold extends StatelessWidget {
                   border: Border.all(color: Colors.transparent),
                 ),
                 child: Align(
-                  alignment: Alignment.center,
-                  child: const Icon(
-                    Icons.add,
-                    size: 30,
-                    color: Colors.black,
-                  ),
-                ),
+                    alignment: Alignment.center,
+                    child: const Stack(
+                      children: [
+                        Icon(Icons.add, size: 30, color: MyColors.shadowBlack),
+                        Positioned(
+                            left: 1,
+                            top: 1,
+                            child:
+                                Icon(Icons.add, size: 30, color: Colors.white)),
+                      ],
+                    )),
               ),
             ),
           ],

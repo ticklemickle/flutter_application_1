@@ -38,14 +38,16 @@ class FirestoreService {
     required int selectedCategoryIndex,
     required List<String> categories,
     DocumentSnapshot? lastDocument,
+    required int limit, // 🔥 limit을 파라미터로 받음
   }) async {
     try {
+      int fetchLimit = (limit > 0) ? limit : 10; // 🔥 기본값 설정
+
       Query query = _firestore
           .collection('posts')
           .orderBy(FieldPath.documentId, descending: true)
-          .limit(maxPage);
+          .limit(fetchLimit);
 
-      /* 전체 카테고리를 보여주고자 하면 주석을 해제 */
       // if (selectedCategoryIndex != 0) {
       final selectedCategory = categories[selectedCategoryIndex];
       query = query.where('category', isEqualTo: selectedCategory);
@@ -62,7 +64,7 @@ class FirestoreService {
         return {
           ...data,
           'id': doc.id,
-          'docRef': doc, // 🔥 문서 객체 추가
+          'docRef': doc, // 🔥 QueryDocumentSnapshot 저장
         };
       }).toList();
     } catch (e) {

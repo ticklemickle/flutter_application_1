@@ -9,6 +9,8 @@ class MyColors {
   static const Color lightGrey = Color.fromARGB(200, 242, 242, 242);
   static const Color grey = Color.fromARGB(199, 221, 221, 221);
 
+  static const Color shadowBlack = Color.fromARGB(50, 0, 0, 0);
+
   /* Font Color */
   static const Color mainBackgroundColor =
       Color(0xFFFFFFFF); // Background Color
