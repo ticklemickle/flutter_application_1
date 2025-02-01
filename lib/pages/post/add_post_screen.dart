@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/themes/colors.dart';
 import 'package:flutter_application_1/common/widgets/commonDialog.dart';
+import 'package:flutter_application_1/common/widgets/commonToast.dart';
 import 'package:flutter_application_1/data/repositories/firestore_repository.dart';
 import 'package:go_router/go_router.dart';
 
@@ -127,9 +128,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         },
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('카테고리와 제목을 입력하세요.')),
-      );
+      showToast(context, "카테고리와 제목을 입력하세요.");
     }
   }
 
@@ -144,15 +143,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('게시글을 등록되었습니다.')),
-        );
+        showToast(context, "게시글을 등록되었습니다.");
         context.go('/mainCommunity');
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('등록 중 오류가 발생했습니다: $e')),
-      );
+      showToast(context, "등록 중 오류가 발생했습니다: $e");
     }
   }
 }

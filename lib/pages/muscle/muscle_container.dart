@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/common/widgets/commonToast.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter/foundation.dart';
 
 class MuscleContainer extends StatelessWidget {
   final String title;
@@ -34,10 +33,10 @@ class MuscleContainer extends StatelessWidget {
           if (await canLaunchUrl(url)) {
             await launchUrl(url, mode: LaunchMode.externalApplication);
           } else {
-            _showToast(context, "URL을 열 수 없습니다.");
+            showToast(context, "URL을 열 수 없습니다.");
           }
         } else {
-          _showToast(context, "서비스 준비중입니다.");
+          showToast(context, "서비스 준비중입니다.");
         }
       },
       child: Container(
@@ -177,16 +176,5 @@ class _ContentSection extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-void _showToast(BuildContext context, String message) {
-  // 웹에서는 fluttertoast 대신 ScaffoldMessenger 사용
-  if (kIsWeb) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  } else {
-    Fluttertoast.showToast(msg: message); // 네이티브 플랫폼에서 fluttertoast 사용
   }
 }
