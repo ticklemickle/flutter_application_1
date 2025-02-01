@@ -9,7 +9,7 @@ class CommonDialog {
     required VoidCallback leftButtonAction, // 왼쪽 버튼 동작
     required String rightButtonText, // 오른쪽 버튼 텍스트
     required VoidCallback rightButtonAction, // 오른쪽 버튼 동작
-    double width = 330.0, // 기본값 설정
+    double width = 350.0, // 기본값 설정
   }) {
     showDialog(
       context: context,
@@ -34,7 +34,7 @@ class CommonDialog {
                       fontWeight: FontWeight.normal,
                       color: Colors.black,
                     ),
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.start,
                   ),
                   const SizedBox(height: 30),
                   Row(

@@ -15,80 +15,96 @@ class CommunityContent extends StatefulWidget {
 
 class _CommunityContentState extends State<CommunityContent> {
   final FirestoreService _firestoreRepository = FirestoreService();
-  final ScrollController _scrollController = ScrollController();
+  final PageController _pageController = PageController();
+  List<ScrollController> _scrollControllers = [];
 
   int selectedCategoryIndex = 0;
   final List<String> categories = ['부동산', '주식', '코인', '재테크', '기타'];
-
-  List<Map<String, dynamic>> _posts = [];
-  bool _isLoading = false;
-  bool _hasMore = true;
-  DocumentSnapshot? _lastDocument;
+  List<List<Map<String, dynamic>>> _posts = List.generate(5, (_) => []);
+  List<DocumentSnapshot?> _lastDocuments = List.generate(5, (_) => null);
+  List<bool> _isLoading = List.generate(5, (_) => false);
+  List<bool> _hasMore = List.generate(5, (_) => true);
 
   @override
   void initState() {
     super.initState();
-    _loadMorePosts();
-    _scrollController.addListener(_onScroll);
+    _scrollControllers = List.generate(categories.length, (index) {
+      final controller = ScrollController();
+      controller.addListener(() => _onScroll(index));
+      return controller;
+    });
+    _loadMorePosts(0);
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
+    for (var controller in _scrollControllers) {
+      controller.dispose();
+    }
+    _pageController.dispose();
     super.dispose();
   }
 
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent - 100 &&
-        !_isLoading &&
-        _hasMore) {
-      print("📢 Loading more posts...");
-      _loadMorePosts();
+  void _onScroll(int index) {
+    if (_scrollControllers[index].position.pixels >=
+            _scrollControllers[index].position.maxScrollExtent - 100 &&
+        !_isLoading[index] &&
+        _hasMore[index]) {
+      print("📢 Loading more posts for category: ${categories[index]}");
+      _loadMorePosts(index);
     }
   }
 
-  Future<void> _loadMorePosts({bool reset = false}) async {
-    if (_isLoading || !_hasMore) return; // 🔥 더 이상 가져올 데이터가 없으면 종료
+  void _loadMorePosts(int index, {bool reset = false}) async {
+    if (_isLoading[index] || !_hasMore[index]) return;
 
-    setState(() => _isLoading = true);
+    setState(() => _isLoading[index] = true);
 
     try {
       final fetchedPosts = await _firestoreRepository.getPosts(
-        selectedCategoryIndex: selectedCategoryIndex,
+        selectedCategoryIndex: index,
         categories: categories,
-        lastDocument: reset ? null : _lastDocument,
-        limit: _firestoreRepository.maxPage, // 🔥 maxPage 개수만큼 가져오기
+        lastDocument: reset ? null : _lastDocuments[index],
+        limit: _firestoreRepository.maxPage,
       );
 
       setState(() {
         if (reset) {
-          _posts = fetchedPosts;
+          _posts[index] = fetchedPosts;
         } else {
-          _posts.addAll(fetchedPosts);
+          _posts[index].addAll(fetchedPosts);
         }
 
         if (fetchedPosts.isNotEmpty) {
-          _lastDocument = fetchedPosts.last['docRef']; // 🔥 마지막 문서 업데이트
+          _lastDocuments[index] = fetchedPosts.last['docRef'];
         }
-        _hasMore = fetchedPosts.length >= _firestoreRepository.maxPage;
+        _hasMore[index] = fetchedPosts.length >= _firestoreRepository.maxPage;
       });
     } catch (e) {
       print('🔥 게시글 로드 오류: $e');
     }
 
-    setState(() => _isLoading = false);
+    setState(() => _isLoading[index] = false);
   }
 
   void _updateCategory(int index) {
     setState(() {
       selectedCategoryIndex = index;
-      _lastDocument = null;
-      _hasMore = true;
-      _posts.clear();
     });
-    _loadMorePosts(reset: true);
+
+    if ((index - _pageController.page!.toInt()).abs() > 1) {
+      _pageController.jumpToPage(index);
+    } else {
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+
+    if (_posts[index].isEmpty) {
+      _loadMorePosts(index);
+    }
   }
 
   @override
@@ -98,29 +114,41 @@ class _CommunityContentState extends State<CommunityContent> {
         _buildCategorySelector(),
         const SizedBox(height: 8),
         Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            controller: _scrollController,
-            itemCount: _posts.length + 1,
-            itemBuilder: (context, index) {
-              if (index == _posts.length) {
-                return _isLoading
-                    ? const Center(child: CommonProgressIndicator())
-                    : const SizedBox();
+          child: PageView.builder(
+            controller: _pageController,
+            itemCount: categories.length,
+            onPageChanged: (index) {
+              setState(() => selectedCategoryIndex = index);
+              if (_posts[index].isEmpty) {
+                _loadMorePosts(index);
               }
+            },
+            itemBuilder: (context, index) {
+              return ListView.builder(
+                controller: _scrollControllers[index],
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                itemCount: _posts[index].length + 1,
+                itemBuilder: (context, postIndex) {
+                  if (postIndex == _posts[index].length) {
+                    return _isLoading[index]
+                        ? const Center(child: CommonProgressIndicator())
+                        : const SizedBox();
+                  }
 
-              final post = _posts[index];
-              return InkWell(
-                onTap: () => context.push('/viewPost/${post['id']}'),
-                child: _buildPostItem(
-                  title: post['title'] ?? '제목없음',
-                  content: post['content'] ?? '',
-                  author: post['author'] ?? 'Unknown',
-                  time: formatRelativeTime(post['register_time']),
-                  comments: post['comments_cnt'] ?? 0,
-                  views: post['views_cnt'] ?? 0,
-                  likes: post['likes_cnt'] ?? 0,
-                ),
+                  final post = _posts[index][postIndex];
+                  return InkWell(
+                    onTap: () => context.push('/viewPost/${post['id']}'),
+                    child: _buildPostItem(
+                      title: post['title'] ?? '제목없음',
+                      content: post['content'] ?? '',
+                      author: post['author'] ?? 'Unknown',
+                      time: formatRelativeTime(post['register_time']),
+                      comments: post['comments_cnt'] ?? 0,
+                      views: post['views_cnt'] ?? 0,
+                      likes: post['likes_cnt'] ?? 0,
+                    ),
+                  );
+                },
               );
             },
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/themes/colors.dart';
-import 'package:flutter_application_1/common/widgets/muscle/muscle_container.dart';
+import 'package:flutter_application_1/pages/muscle/muscle_container.dart';
 
 class MainMuscleScreen extends StatelessWidget {
   const MainMuscleScreen({super.key});
