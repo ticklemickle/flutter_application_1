@@ -96,7 +96,7 @@ class CommonScaffold extends StatelessWidget {
                     alignment: Alignment.center,
                     child: const Stack(
                       children: [
-                        Icon(Icons.add, size: 30, color: MyColors.shadowBlack),
+                        Icon(Icons.add, size: 30, color: MyColors.shadowGrey),
                         Positioned(
                             left: 1,
                             top: 1,

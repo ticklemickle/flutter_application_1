@@ -9,7 +9,7 @@ class CommonDialog {
     required VoidCallback leftButtonAction, // 왼쪽 버튼 동작
     required String rightButtonText, // 오른쪽 버튼 텍스트
     required VoidCallback rightButtonAction, // 오른쪽 버튼 동작
-    double width = 350.0, // 기본값 설정
+    double width = 330.0, // 기본값 설정
   }) {
     showDialog(
       context: context,
@@ -23,7 +23,7 @@ class CommonDialog {
           child: SizedBox(
             width: width, // 원하는 크기로 설정
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(30.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -36,7 +36,7 @@ class CommonDialog {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 30),
                   Row(
                     children: [
                       Expanded(
@@ -55,14 +55,13 @@ class CommonDialog {
                           child: Text(
                             leftButtonText,
                             style: const TextStyle(
-                              color: Colors.black,
+                              color: MyColors.darkGrey,
                               fontSize: 16,
-                              fontWeight: FontWeight.normal,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 20),
                       Expanded(
                         child: TextButton(
                           onPressed: rightButtonAction, // 오른쪽 버튼 기능
@@ -70,7 +69,10 @@ class CommonDialog {
                             backgroundColor: MyColors.mainColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(1.0),
-                              side: BorderSide.none,
+                              side: BorderSide(
+                                color: MyColors.mainColor, // 테두리 색상
+                                width: 1.0, // 테두리 두께
+                              ),
                             ),
                           ),
                           child: Text(

@@ -99,7 +99,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       CommonDialog.show(
         context: context,
         title: '게시물 등록을 취소하시겠습니까?',
-        leftButtonText: '아니요',
+        leftButtonText: '아니오',
         leftButtonAction: () => Navigator.pop(context),
         rightButtonText: '예',
         rightButtonAction: () {
@@ -116,7 +116,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       CommonDialog.show(
         context: context,
         title: '$selectedCategory 게시판에 등록하시겠습니까?',
-        leftButtonText: '아니요',
+        leftButtonText: '아니오',
         leftButtonAction: () {
           Navigator.pop(context);
         },
