@@ -31,7 +31,10 @@ class CommonScaffold extends StatelessWidget {
             : Text(
                 title ?? '',
                 textAlign: titleAlignment,
-                style: const TextStyle(color: MyColors.mainFontColor),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: MyColors.mainFontColor),
               ),
         actions: actions,
         backgroundColor: MyColors.mainBackgroundColor, // AppBar 배경색
