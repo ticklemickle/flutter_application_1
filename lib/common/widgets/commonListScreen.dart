@@ -57,7 +57,7 @@ class CommonListScreen extends StatelessWidget {
       if (await canLaunchUrl(url)) {
         await launchUrl(url, mode: LaunchMode.externalApplication);
       } else {
-        showToast(context, "URL을 열 수 없습니다.");
+        showToast(context, "서비스 준비중입니다.");
       }
     } else if (item.onTap != null) {
       item.onTap!(context);

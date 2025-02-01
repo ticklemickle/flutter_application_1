@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/widgets/commonListScreen.dart';
+import 'package:flutter_application_1/common/widgets/commonToast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainSettingScreen extends StatelessWidget {
   const MainSettingScreen({super.key});
@@ -37,12 +39,9 @@ class MainSettingScreen extends StatelessWidget {
         ListItem(title: "작성한 댓글", viewIcon: true),
         ListItem(title: "좋아요 또는 싫어요한 글", viewIcon: true),
       ]),
-      _buildMenuItem(context, "진행 중인 이벤트", [
-        ListItem(title: "서비스 이용약관", viewIcon: true),
-      ]),
-      _buildMenuItem(context, "공지사항", [
-        ListItem(title: "서비스 이용약관", viewIcon: true),
-      ]),
+      _buildLinkItem(context, "진행 중인 이벤트", ""),
+      _buildLinkItem(context, "공지사항",
+          "https://superb-nitrogen-81f.notion.site/18d48074a12d80abbff2c56619b105d9?v=18d48074a12d80b88912000c3389d11c&pvs=4"),
       _buildMenuItem(context, "문의하기", [
         ListItem(title: "서비스 이용약관", viewIcon: true),
       ]),
@@ -84,6 +83,28 @@ class MainSettingScreen extends StatelessWidget {
                   CommonListScreen(title: title, items: items)),
         );
       },
+    );
+  }
+
+  Widget _buildLinkItem(BuildContext context, String title, String websiteUrl) {
+    return Column(
+      children: [
+        ListTile(
+          title: Text(title),
+          onTap: () async {
+            if (websiteUrl.isNotEmpty) {
+              final Uri url = Uri.parse(websiteUrl!);
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url, mode: LaunchMode.externalApplication);
+              } else {
+                showToast(context, "URL을 열 수 없습니다.");
+              }
+            } else {
+              showToast(context, "서비스 준비중입니다.");
+            }
+          },
+        ),
+      ],
     );
   }
 }
