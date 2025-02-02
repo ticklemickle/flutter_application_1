@@ -63,10 +63,7 @@ class _FaqListScreenState extends State<FaqListScreen> {
         backgroundColor: Colors.white,
         title: Text(
           widget.title,
-          style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: MyColors.mainFontColor),
+          style: const TextStyle(fontSize: 18, color: MyColors.mainFontColor),
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
@@ -109,7 +106,7 @@ class _FaqListScreenState extends State<FaqListScreen> {
                       '더 보기',
                       style: TextStyle(
                         fontWeight: FontWeight.bold, // 글씨를 bold 처리
-                        color: Colors.black, // 글씨를 black으로 설정
+                        color: MyColors.darkGrey, // 글씨를 black으로 설정
                       ),
                     ),
                   ),
@@ -130,17 +127,15 @@ class _FaqListScreenState extends State<FaqListScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '24시간, 365일 ',
+                      '24시간, 365일 편하게 물어보세요.',
                       style: TextStyle(
                         color: MyColors.mainFontColor,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      '편하게 물어보세요. 고객운영팀이 언제나 도와드리겠습니다.',
+                      '고객운영팀이 언제나 도와드리겠습니다.',
                       style: TextStyle(
                         color: MyColors.mainFontColor,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -152,13 +147,14 @@ class _FaqListScreenState extends State<FaqListScreen> {
                               mode: LaunchMode.externalApplication);
                         } else {
                           showToast(context,
-                              "ticklemickle20@gmail.com 으로 연락 부탁드립니다.");
+                              "ticklemickle20@gmail.com 으로 연락 부탁드립니다.;l");
                         }
                       },
                       child: Text(
                         '문의하기',
                         style: TextStyle(
-                          color: MyColors.linkFontColor, // 링크 글씨색
+                          color: MyColors.linkFontColor,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     )
@@ -190,6 +186,7 @@ class _FaqListScreenState extends State<FaqListScreen> {
               TextSpan(
                 text: "$question",
                 style: TextStyle(
+                  color: MyColors.mainFontColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
