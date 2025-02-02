@@ -19,4 +19,5 @@ class MyColors {
   static const Color mainFontColor = Color(0xFF000000); // Main Font Color
   static const Color subFontColor = Color(0xFF7F7F7F); // Sub Font Color
   static const Color whiteFontColor = Color.fromARGB(255, 255, 255, 255);
+  static const Color linkFontColor = Color.fromARGB(255, 0, 155, 255);
 }

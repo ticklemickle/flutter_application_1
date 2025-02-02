@@ -168,8 +168,7 @@ class _CommunityContentState extends State<CommunityContent> {
             child: ChoiceChip(
               label: Container(
                 constraints: const BoxConstraints(
-                  minHeight: 20, // 최소 높이
-                  minWidth: 60, // 최소 너비
+                  minWidth: 50, // 최소 너비
                 ),
                 alignment: Alignment.center, // 텍스트를 중앙 정렬
                 child: Text(
@@ -178,7 +177,7 @@ class _CommunityContentState extends State<CommunityContent> {
                     color: selectedCategoryIndex == index
                         ? MyColors.mainFontColor // 선택된 상태 글씨 색상
                         : MyColors.subFontColor, // 선택되지 않은 상태 글씨 색상
-                    fontSize: 15,
+                    fontSize: 12,
                     fontWeight: selectedCategoryIndex == index
                         ? FontWeight.normal // 선택된 상태
                         : FontWeight.normal, // 기본 상태

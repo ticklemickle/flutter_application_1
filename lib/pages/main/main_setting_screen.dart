@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/widgets/commonListScreen.dart';
 import 'package:flutter_application_1/common/widgets/commonToast.dart';
+import 'package:flutter_application_1/common/widgets/setting/faqListScreen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -42,9 +43,6 @@ class MainSettingScreen extends StatelessWidget {
       _buildLinkItem(context, "진행 중인 이벤트", ""),
       _buildLinkItem(context, "공지사항",
           "https://superb-nitrogen-81f.notion.site/18d48074a12d80abbff2c56619b105d9?v=18d48074a12d80b88912000c3389d11c&pvs=4"),
-      _buildMenuItem(context, "문의하기", [
-        ListItem(title: "서비스 이용약관", viewIcon: true),
-      ]),
       _buildMenuItem(context, "약관 및 정책", [
         ListItem(
             title: "개인 정보 수집 및 이용 동의",
@@ -62,27 +60,22 @@ class MainSettingScreen extends StatelessWidget {
             url:
                 "https://superb-nitrogen-81f.notion.site/18d48074a12d80d8ab2cec2977e2ece7?pvs=4"),
       ]),
-      _buildMenuItem(context, "자주 묻는 질문", [
-        ListItem(title: "개인정보가 노출된 것 같아요!", viewIcon: true),
-        ListItem(title: "회원 탈퇴는 어떻게 하나요?", viewIcon: true),
-        ListItem(title: "머니 플래너는 누구인가요?", viewIcon: true),
-      ]),
+      _buildFAQItem(context, "자주 묻는 질문"),
     ]);
   }
 
   Widget _buildMenuItem(
       BuildContext context, String title, List<ListItem> items) {
-    return ListTile(
-      title: Text(title, style: TextStyle(fontWeight: FontWeight.normal)),
-      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  CommonListScreen(title: title, items: items)),
-        );
-      },
+    return CommonMenuItem(
+      title: title,
+      destinationScreen: CommonListScreen(title: title, items: items),
+    );
+  }
+
+  Widget _buildFAQItem(BuildContext context, String title) {
+    return CommonMenuItem(
+      title: title,
+      destinationScreen: FaqListScreen(title: title),
     );
   }
 
@@ -105,6 +98,28 @@ class MainSettingScreen extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+}
+
+class CommonMenuItem extends StatelessWidget {
+  final String title;
+  final Widget destinationScreen;
+
+  const CommonMenuItem(
+      {super.key, required this.title, required this.destinationScreen});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(title, style: TextStyle(fontWeight: FontWeight.normal)),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => destinationScreen),
+        );
+      },
     );
   }
 }
